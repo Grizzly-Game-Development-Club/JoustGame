@@ -11,6 +11,9 @@ public class Player2 : MonoBehaviour
     public bool isJumping;
     public bool isGrounded;
     public float jump;
+    private bool attack;
+
+    private static string ptag = "player tag";
 
     public int leftBorder;
     public int rightBorder;
@@ -39,6 +42,7 @@ public class Player2 : MonoBehaviour
         rb.velocity = velocity;
 
         isJumping = Input.GetKeyDown("w");
+        attack = Input.GetKeyDown(KeyCode.Space);
 
         if (isJumping)
         {
@@ -49,7 +53,10 @@ public class Player2 : MonoBehaviour
             rb.velocity = jumps;
             Debug.Log("jump");
         } 
-
+        if (attack)
+        {
+            Debug.Log("Space has been pressed");
+        }
     }
 
     void Jump(Vector2 velocity)
