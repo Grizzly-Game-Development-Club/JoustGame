@@ -56,6 +56,7 @@ public class Player2 : MonoBehaviour
         if (attack)
         {
             Debug.Log("Space has been pressed");
+        
         }
     }
 
