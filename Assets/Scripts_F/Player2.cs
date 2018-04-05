@@ -23,6 +23,7 @@ public class Player2 : MonoBehaviour
     {
 
         rb = this.GetComponent<Rigidbody2D>();
+        
 
     }
 

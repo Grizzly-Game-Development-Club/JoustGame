@@ -7,13 +7,20 @@ public class playerController : MonoBehaviour {
     public int playerSpeed = 8;
     private bool facingRight = false;
     private float moveX;
-    public float jumpVelocity = 8f;
-    public bool grounded = false;
+    private float jumpVelocity = 4f;
+    public bool isGrounded = true;
+    //public bool isPressingJump = false;
+
+    public int leftBorder;
+    public int rightBorder;
+
     //public bool inAir = true;
     //public int tapJumpMultiplier = 1f;
 
     // Use this for initialization
     void Start() {
+        leftBorder = -8;
+        rightBorder = 8;
 
     }
 
@@ -21,6 +28,7 @@ public class playerController : MonoBehaviour {
     void Update() {
         PlayerMove();
         Jump();
+        EdgeReset();
     }
     void PlayerMove() {
         //Controls
@@ -43,9 +51,14 @@ public class playerController : MonoBehaviour {
     void Jump()
     {
         //Jumping code
-        if (Input.GetButton("Jump") && grounded) {
+        if (Input.GetButtonDown("Jump") ) {
             GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jumpVelocity);
         }
+       /* else
+        {
+            Vector2 vel = GetComponent<Rigidbody2D>().velocity;
+            vel = new Vector2(GetComponent<Rigidbody2D>().velocity.x, vel.y-jumpVelocity);
+        }*/
         /*else if (Input.GetButton("Jump") && inAir) {
             GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, tapJumpMultiplier);
         }*/
@@ -55,7 +68,7 @@ public class playerController : MonoBehaviour {
         Vector2 localScale = gameObject.transform.localScale;
         localScale.x *= -1;
         transform.localScale = localScale;
-    }
+    }/*
     void OnTriggerEnter2D()
     {
         grounded = true;
@@ -65,5 +78,36 @@ public class playerController : MonoBehaviour {
     {
         grounded = false;
         //inAir = true;
+    }*/
+
+    void OnCollisionEnter2D(Collision2D theCollision)
+    {
+        if (theCollision.gameObject.tag == "Ground")
+        {
+            isGrounded = true;
+        }
+
+    }
+    void OnCollisionExit2D(Collision2D theCollision)
+    {
+        if (theCollision.gameObject.tag == "Ground")
+        {
+            isGrounded = false;
+        }
+    }
+
+
+    void EdgeReset()
+    {
+        if (this.transform.position.x < leftBorder)
+        {
+            this.transform.position = new Vector3(rightBorder - 0.1f, this.transform.position.y, this.transform.position.z);
+
+        }
+
+        if (this.transform.position.x > rightBorder)
+        {
+            this.transform.position = new Vector3(leftBorder + 0.1f, this.transform.position.y, this.transform.position.z);
+        }
     }
 }
