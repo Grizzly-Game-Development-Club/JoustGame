@@ -9,18 +9,28 @@ public class playerController : MonoBehaviour {
     private float moveX;
     private float jumpVelocity = 4f;
     public bool isGrounded = true;
+    Rigidbody2D playerRB;
     //public bool isPressingJump = false;
 
     public int leftBorder;
     public int rightBorder;
+    public bool isAttacking;
+    public int attackCounter;
 
     //public bool inAir = true;
     //public int tapJumpMultiplier = 1f;
 
     // Use this for initialization
     void Start() {
-        leftBorder = -8;
-        rightBorder = 8;
+        Camera main_cam = Camera.main;
+        leftBorder = -16;//(int)main_cam.transform.position.x;
+        rightBorder = 15;//(int)main_cam.pixelWidth;
+        attackCounter = 10;
+        playerRB = gameObject.GetComponent<Rigidbody2D>();
+        isAttacking = false;
+
+
+        moveX = 0;
 
     }
 
@@ -28,6 +38,7 @@ public class playerController : MonoBehaviour {
     void Update() {
         PlayerMove();
         Jump();
+        Attack();
         EdgeReset();
     }
     void PlayerMove() {
@@ -37,22 +48,43 @@ public class playerController : MonoBehaviour {
         //Animations
 
         //Player Directions
-        if (moveX < 0.0f && facingRight == false) {
+        if (moveX < 0.0f && !facingRight) {
             FlipPlayer();
         }
-        else if (moveX > 0.0f && facingRight == true) {
+        else if (moveX > 0.0f && facingRight) {
             FlipPlayer();
         }
+        int dirX = 0;
+       
+        if (isAttacking)
+        {
+            
+            if (facingRight)
+                dirX = -1;
+            else
+                dirX = 1;
 
+            Vector2 force = new Vector2(dirX * 500, 0);
+            playerRB.AddForce(force);
+            attackCounter--;
+            if (attackCounter <= 0)
+            {
+                attackCounter = 10;
+                isAttacking = false;
+                moveX = 0;
+            }
+        }
         //Physics
-        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(moveX * playerSpeed, gameObject.GetComponent<Rigidbody2D>().velocity.y);
+      
+        playerRB.velocity = new Vector2(moveX * playerSpeed, playerRB.velocity.y);
+        
 
     }
     void Jump()
     {
         //Jumping code
         if (Input.GetButtonDown("Jump") ) {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jumpVelocity);
+            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpVelocity);
         }
        /* else
         {
@@ -62,6 +94,18 @@ public class playerController : MonoBehaviour {
         /*else if (Input.GetButton("Jump") && inAir) {
             GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, tapJumpMultiplier);
         }*/
+    }
+
+    void Attack()
+    {
+        if (!isAttacking)
+        {
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                isAttacking = true;                        
+            }
+        }
+        
     }
     void FlipPlayer() {
         facingRight = !facingRight;
