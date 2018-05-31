@@ -12,6 +12,11 @@ public class playerController : MonoBehaviour {
     Rigidbody2D playerRB;
     //public bool isPressingJump = false;
 
+    // These are the stamina values
+    public int totalStamina = 100;
+    public int actionCost = 5;
+
+
     public int leftBorder;
     public int rightBorder;
     public bool isAttacking;
@@ -84,7 +89,15 @@ public class playerController : MonoBehaviour {
     {
         //Jumping code
         if (Input.GetButtonDown("Jump") ) {
-            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpVelocity);
+            if (totalStamina >= actionCost) // check if there is enough stamina to cause
+            {
+                playerRB.velocity = new Vector2(playerRB.velocity.x, jumpVelocity);
+                totalStamina -= actionCost;
+            }
+            else
+            {
+                Debug.Log("Out of Stamina");
+            }
         }
        /* else
         {
