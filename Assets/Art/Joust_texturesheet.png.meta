@@ -1,0 +1,461 @@
+fileFormatVersion: 2
+guid: 09520c5c606d5a743bd071606cdc5b8e
+timeCreated: 1527876651
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Sun
+    21300002: TowerShingle
+    21300004: TowerWindow
+    21300006: LeftFlag
+    21300008: RightFlag
+    21300010: TowerWall
+    21300012: Cloud
+    21300014: WoodPlatformLeft
+    21300016: WoodPlatformCenter
+    21300018: WoodPlatformRight
+    21300020: WoodPlatform
+    21300022: Sky
+    21300024: SpawnerPlatform
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 0
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 32
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Sun
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 1051
+        width: 187
+        height: 187
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 59.5, y: 93.5}
+        - {x: -62.5, y: 93.5}
+        - {x: -93.5, y: 63.5}
+        - {x: -93.5, y: -43.5}
+        - {x: -76.5, y: -93.5}
+        - {x: 76.5, y: -93.5}
+        - {x: 93.5, y: -60.5}
+        - {x: 93.5, y: 75.5}
+        - {x: 75.5, y: 90.5}
+      physicsShape:
+      - - {x: -57.5, y: 93.5}
+        - {x: -93.5, y: 72.5}
+        - {x: -93.5, y: -79.5}
+        - {x: -87.5, y: -93.5}
+        - {x: 83.5, y: -93.5}
+        - {x: 93.5, y: -66.5}
+        - {x: 93.5, y: 73.5}
+        - {x: 70.5, y: 93.5}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: TowerShingle
+      rect:
+        serializedVersion: 2
+        x: 669
+        y: 681
+        width: 584
+        height: 562
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 3, y: 281}
+        - {x: -22, y: 281}
+        - {x: -292, y: -273}
+        - {x: -292, y: -281}
+        - {x: 292, y: -281}
+        - {x: 292, y: -274}
+        - {x: 89, y: 164}
+      physicsShape:
+      - - {x: -5, y: 281}
+        - {x: -268, y: -224}
+        - {x: -292, y: -277}
+        - {x: -292, y: -281}
+        - {x: 292, y: -281}
+        - {x: 292, y: -265}
+        - {x: 6, y: 281}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: TowerWindow
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 713
+        width: 187
+        height: 283
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -59.5, y: 141.5}
+        - {x: -93.5, y: 32.5}
+        - {x: -93.5, y: -141.5}
+        - {x: 93.5, y: -141.5}
+        - {x: 93.5, y: 66.5}
+        - {x: 72.5, y: 141.5}
+      - - {x: -45.5, y: 96.5}
+        - {x: -23.5, y: 122.5}
+        - {x: 13.5, y: 129.5}
+        - {x: 34.5, y: 120.5}
+        - {x: 55.5, y: 79.5}
+        - {x: 38.5, y: 107.5}
+        - {x: 19.5, y: 123.5}
+        - {x: -11.5, y: 124.5}
+        - {x: -24.5, y: 114.5}
+        - {x: -42.5, y: 86.5}
+        - {x: -44.5, y: 70.5}
+      physicsShape:
+      - - {x: -93.5, y: -92.4613}
+        - {x: -93.5, y: -141.5}
+        - {x: 93.5, y: -141.5}
+        - {x: 93.5, y: -91.79474}
+      - - {x: -49.5, y: 55.5}
+        - {x: -36.5, y: 112.5}
+        - {x: -3.5, y: 130.5}
+        - {x: 30.5, y: 123.5}
+        - {x: -10.5, y: 122.5}
+        - {x: -35.5, y: 100.5}
+        - {x: -41.5, y: 89.5}
+        - {x: -46.5, y: 31.5}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LeftFlag
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 446
+        width: 250
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 100.5}
+        - {x: -125, y: -100.5}
+        - {x: 13, y: -100.5}
+        - {x: 125, y: -47.5}
+        - {x: 125, y: 100.5}
+      physicsShape:
+      - - {x: -125, y: 100.5}
+        - {x: -125, y: 85.09784}
+        - {x: 125, y: 84.9256}
+        - {x: 124.598404, y: 100.5}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: RightFlag
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 446
+        width: 251
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125.5, y: 100.5}
+        - {x: -125.5, y: 81.5}
+        - {x: 35.5, y: -100.5}
+        - {x: 123.5, y: -100.5}
+        - {x: 124.5, y: -40.5}
+        - {x: 125.5, y: 23.5}
+        - {x: 125.5, y: 100.5}
+      physicsShape:
+      - - {x: 125.5, y: 100.5}
+        - {x: -125.5, y: 100.5}
+        - {x: -125.5, y: 84.5}
+        - {x: -124.5, y: 83.5}
+        - {x: 125.5, y: 82.80298}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: TowerWall
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 517
+        width: 305
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -152.5, y: 55}
+        - {x: -152.5, y: -55}
+        - {x: 152.5, y: -55}
+        - {x: 152.5, y: 55}
+      physicsShape:
+      - - {x: -152.5, y: 55}
+        - {x: -152.5, y: -55}
+        - {x: 152.5, y: -55}
+        - {x: 152.5, y: 55}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Cloud
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 221
+        width: 298
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -45, y: 90.5}
+        - {x: -149, y: 55.5}
+        - {x: -149, y: -36.5}
+        - {x: -146, y: -52.5}
+        - {x: -61, y: -90.5}
+        - {x: 108, y: -90.5}
+        - {x: 149, y: -71.5}
+        - {x: 149, y: 29.5}
+        - {x: 93, y: 90.5}
+      physicsShape:
+      - - {x: -108, y: 90.5}
+        - {x: -142, y: 69.5}
+        - {x: -149, y: 43.5}
+        - {x: -149, y: -43.5}
+        - {x: -91, y: -90.5}
+        - {x: 134, y: -90.5}
+        - {x: 149, y: -58.5}
+        - {x: 149, y: 64.5}
+        - {x: 74, y: 90.5}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WoodPlatformLeft
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 377
+        width: 141
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 70.5, y: 45}
+        - {x: -70.5, y: 45}
+        - {x: -70.5, y: -7}
+        - {x: 32.5, y: -45}
+        - {x: 54.5, y: -45}
+        - {x: 61.5, y: -41}
+        - {x: 58.5, y: -35}
+        - {x: 52.5, y: -28}
+        - {x: 70.5, y: -8}
+      physicsShape:
+      - - {x: -70.5, y: 45}
+        - {x: -70.5, y: -10}
+        - {x: 16.5, y: -45}
+        - {x: 57.5, y: -45}
+        - {x: 70.5, y: -25}
+        - {x: 70.5, y: 45}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WoodPlatformCenter
+      rect:
+        serializedVersion: 2
+        x: 822
+        y: 352
+        width: 277
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -138.5, y: 57.5}
+        - {x: -138.5, y: 5.5}
+        - {x: -8.5, y: -57.5}
+        - {x: 8.5, y: -57.5}
+        - {x: 138.5, y: 5.5}
+        - {x: 138.5, y: 57.5}
+      physicsShape:
+      - - {x: -138.5, y: 57.5}
+        - {x: -138.5, y: 3.5}
+        - {x: -17.5, y: -57.5}
+        - {x: 10.5, y: -57.5}
+        - {x: 138.5, y: 5.5}
+        - {x: 138.5, y: 57.5}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WoodPlatformRight
+      rect:
+        serializedVersion: 2
+        x: 1144
+        y: 377
+        width: 140
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -70, y: 45}
+        - {x: -70, y: -9}
+        - {x: -60, y: -38}
+        - {x: -57, y: -45}
+        - {x: -40, y: -45}
+        - {x: 70, y: -7}
+        - {x: 70, y: 45}
+      physicsShape:
+      - - {x: -70, y: 45}
+        - {x: -70, y: -7}
+        - {x: -16, y: -7}
+        - {x: -58, y: -35}
+        - {x: -58, y: -37}
+        - {x: -52, y: -45}
+        - {x: -47, y: -45}
+        - {x: 0, y: -13}
+        - {x: 70, y: -7}
+        - {x: 70, y: 45}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WoodPlatform
+      rect:
+        serializedVersion: 2
+        x: 909
+        y: 246
+        width: 107
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -53.5, y: 25.5}
+        - {x: -53.5, y: -25.5}
+        - {x: 53.5, y: -25.5}
+        - {x: 53.5, y: 25.5}
+      physicsShape:
+      - - {x: -53.5, y: 25.5}
+        - {x: -53.5, y: -25.5}
+        - {x: 53.5, y: -25.5}
+        - {x: 53.5, y: 25.5}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Sky
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 2
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -90, y: 90}
+        - {x: -90, y: -90}
+        - {x: 90, y: -90}
+        - {x: 90, y: 90}
+      physicsShape:
+      - - {x: -90, y: 90}
+        - {x: -90, y: -90}
+        - {x: 90, y: -90}
+        - {x: 90, y: 90}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpawnerPlatform
+      rect:
+        serializedVersion: 2
+        x: 735
+        y: 0
+        width: 450
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -225, y: 92}
+        - {x: -225, y: -87}
+        - {x: -196, y: -92}
+        - {x: 206, y: -92}
+        - {x: 225, y: -43}
+        - {x: 225, y: 92}
+      physicsShape:
+      - - {x: -215.66815, y: 55.33943}
+        - {x: -216.33478, y: -34.34175}
+        - {x: -148.67352, y: -86.001}
+        - {x: 151.3424, y: -86.001}
+        - {x: 215.00159, y: -36.334774}
+        - {x: 215.00159, y: 55.33943}
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
