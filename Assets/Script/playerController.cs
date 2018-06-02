@@ -12,8 +12,8 @@ public class playerController : MonoBehaviour {
     Rigidbody2D playerRB;
     //public bool isPressingJump = false;
 
-    public int leftBorder;
-    public int rightBorder;
+    public float leftBorder;
+    public float rightBorder;
     public bool isAttacking;
     public int attackCounter;
 
@@ -23,8 +23,10 @@ public class playerController : MonoBehaviour {
     // Use this for initialization
     void Start() {
         Camera main_cam = Camera.main;
-        leftBorder = -16;//(int)main_cam.transform.position.x;
-        rightBorder = 15;//(int)main_cam.pixelWidth;
+		float height = 2f * main_cam.orthographicSize;
+		float width = height * main_cam.aspect;
+		leftBorder = 0- width / 2; //-16;//(int)main_cam.transform.position.x;
+		rightBorder = width / 2;//(int)main_cam.pixelWidth;
         attackCounter = 10;
         playerRB = gameObject.GetComponent<Rigidbody2D>();
         isAttacking = false;
