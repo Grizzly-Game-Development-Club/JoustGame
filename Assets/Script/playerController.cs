@@ -10,21 +10,32 @@ public class playerController : MonoBehaviour {
     private float jumpVelocity = 4f;
     public bool isGrounded = true;
     Rigidbody2D playerRB;
-    //public bool isPressingJump = false;
+    
 
-    public int leftBorder;
-    public int rightBorder;
     public bool isAttacking;
     public int attackCounter;
 
+    //Use for Transform Player Position if Touching Edge
+    float leftEdge;
+    float rightEdge;
+
+    //Use to check if player is dead
+    private bool playerDeath;
+
+    //Reference to Game Manager Script
+    JoustGameManager gameManager;
+
+    //Unused
+    //public bool isPressingJump = false;
     //public bool inAir = true;
     //public int tapJumpMultiplier = 1f;
 
     // Use this for initialization
     void Start() {
         Camera main_cam = Camera.main;
-        leftBorder = -16;//(int)main_cam.transform.position.x;
-        rightBorder = 15;//(int)main_cam.pixelWidth;
+
+        
+
         attackCounter = 10;
         playerRB = gameObject.GetComponent<Rigidbody2D>();
         isAttacking = false;
@@ -32,6 +43,15 @@ public class playerController : MonoBehaviour {
 
         moveX = 0;
 
+        //Set Left and Right Border X Position
+        leftEdge = GameObject.Find("Edge Collider/Left").transform.position.x;
+        rightEdge = GameObject.Find("Edge Collider/Right").transform.position.x;
+
+        //Set player to be alive at the start of game
+        playerDeath = false;
+
+        //Set Game Manager
+        gameManager = GameObject.Find("Game Manager").GetComponent<JoustGameManager>();
     }
 
     // Update is called once per frame
@@ -39,7 +59,6 @@ public class playerController : MonoBehaviour {
         PlayerMove();
         Jump();
         Attack();
-        EdgeReset();
     }
     void PlayerMove() {
         //Controls
@@ -126,12 +145,27 @@ public class playerController : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D theCollision)
     {
+
+        //Edge Reset
+        if (theCollision.gameObject.tag == "Edge")
+            switch (theCollision.gameObject.name) {
+                case "Left":                
+                    this.transform.position = new Vector3(rightEdge - 0.7f, this.transform.position.y, this.transform.position.z);
+                    break;
+                case "Right":      
+                    this.transform.position = new Vector3(leftEdge + 0.7f, this.transform.position.y, this.transform.position.z);
+                    break;
+                case "Bottom":
+                    Death();
+                    break;
+            }
+
         if (theCollision.gameObject.tag == "Ground")
         {
             isGrounded = true;
         }
-
     }
+
     void OnCollisionExit2D(Collision2D theCollision)
     {
         if (theCollision.gameObject.tag == "Ground")
@@ -141,17 +175,11 @@ public class playerController : MonoBehaviour {
     }
 
 
-    void EdgeReset()
-    {
-        if (this.transform.position.x < leftBorder)
-        {
-            this.transform.position = new Vector3(rightBorder - 0.1f, this.transform.position.y, this.transform.position.z);
-
-        }
-
-        if (this.transform.position.x > rightBorder)
-        {
-            this.transform.position = new Vector3(leftBorder + 0.1f, this.transform.position.y, this.transform.position.z);
-        }
+    //On Player Death
+    void Death() {
+        Destroy(this);
+        gameManager.setPlayerDeath(true);
+        gameManager.changeGameStatus("gameOverStatus", true);
     }
+
 }
