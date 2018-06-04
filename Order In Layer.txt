@@ -1,0 +1,7 @@
+Order Layer
+1: Sky Background
+2: Cloud Background
+3: Tower Wall
+4: Tower Shingle, Wood Platform
+5: Player
+6: Spawner Platfrom
