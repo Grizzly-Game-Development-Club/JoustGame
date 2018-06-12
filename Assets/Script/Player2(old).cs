@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player2 : MonoBehaviour
+public class Player2old : MonoBehaviour
 {
 
     private Rigidbody2D rb;

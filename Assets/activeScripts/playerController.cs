@@ -17,6 +17,13 @@ public class playerController : MonoBehaviour {
     public float rightBorder;
 =======*/
 //>>>>>>> Hieu-Changes
+
+    // These are the stamina values
+    public int totalStamina = 100;
+    public int actionCost = 5;
+
+
+
     public bool isAttacking;
     public int attackCounter;
 
@@ -115,7 +122,15 @@ public class playerController : MonoBehaviour {
     {
         //Jumping code
         if (Input.GetButtonDown("Jump") ) {
-            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpVelocity);
+            if (totalStamina >= actionCost) // check if there is enough stamina to cause
+            {
+                playerRB.velocity = new Vector2(playerRB.velocity.x, jumpVelocity);
+                totalStamina -= actionCost;
+            }
+            else
+            {
+                Debug.Log("Out of Stamina");
+            }
         }
        /* else
         {
