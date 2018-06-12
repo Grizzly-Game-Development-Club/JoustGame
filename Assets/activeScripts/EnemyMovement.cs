@@ -37,6 +37,11 @@ public class EnemyMovement : MonoBehaviour {
         }
 
         EdgeReset();
+
+        if (erb.gameObject.transform.position.y < -3.5)
+        {
+            directionY *= -1;
+        }
  
     }
 
@@ -86,6 +91,7 @@ public class EnemyMovement : MonoBehaviour {
 
         if (collision.gameObject.CompareTag("Ground"))
         {
+            
             var normal = collision.contacts[0].normal;
             if (normal.y > 0)
             { //if the bottom side hit something 
@@ -117,15 +123,25 @@ public class EnemyMovement : MonoBehaviour {
         }
 
 
-        //if (collision.gameObject.tag == "Floor")
-        //{
-        //    if (erb.velocity.y < 0)
-        //    {
-        //        directionY *= -2;
+        if (collision.gameObject.tag == "Floor")
+        {
+            if (erb.velocity.y < 0)
+            {
+                directionY *= -2;
 
-        //    }
-            
-        //}
+
+            }
+
+            var normal = collision.contacts[0].normal;
+            if (normal.x > 0)
+            {
+                directionX *= -1;
+            }
+            if (normal.x < 0)
+            {
+                directionX *= -1;
+            }
+        }
 
     }
 
@@ -153,12 +169,12 @@ public class EnemyMovement : MonoBehaviour {
     //    }
     //}
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Floor")
-        {
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Floor")
+    //    {
 
-             directionY *= -2;
-        }
-    }
+    //         directionY *= -2;
+    //    }
+    //}
 }

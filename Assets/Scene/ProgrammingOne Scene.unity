@@ -1654,9 +1654,8 @@ GameObject:
   - component: {fileID: 556961455}
   - component: {fileID: 556961454}
   - component: {fileID: 556961457}
-  - component: {fileID: 556961458}
   - component: {fileID: 556961459}
-  - component: {fileID: 556961460}
+  - component: {fileID: 556961458}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -1773,9 +1772,9 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 556961453}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cab0f05764e98941829d797d35620a8, type: 3}
+  m_Script: {fileID: 11500000, guid: ad2b3a006b9e42842bf7eb06dab3dd21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
@@ -1803,21 +1802,6 @@ MonoBehaviour:
   rightBorder: 0
   isAttacking: 0
   attackCounter: 0
---- !u!114 &556961460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 556961453}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec055e3030791c847959f92b6bbb3635, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  totalStamina: 100
-  actionCost: 5
-  isRechage: 0
-  rechageRate: 1
 --- !u!1 &595529107
 GameObject:
   m_ObjectHideFlags: 0
@@ -2583,7 +2567,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 767198792}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 440, y: 283, z: 0}
+  m_LocalPosition: {x: 528, y: 288, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
