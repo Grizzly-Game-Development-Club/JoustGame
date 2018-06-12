@@ -118,10 +118,10 @@ public class Character : MonoBehaviour {
 		if (theCollision.gameObject.tag == "Edge")
 			switch (theCollision.gameObject.name) {
 		case "Left":                
-			this.transform.position = new Vector3(rightEdge - 0.7f, this.transform.position.y, this.transform.position.z);
+			this.transform.position = new Vector3(rightEdge - 1.2f, this.transform.position.y, this.transform.position.z);
 			break;
 		case "Right":      
-			this.transform.position = new Vector3(leftEdge + 0.7f, this.transform.position.y, this.transform.position.z);
+			this.transform.position = new Vector3(leftEdge + 1.2f, this.transform.position.y, this.transform.position.z);
 			break;
 		case "Bottom":
 			End();

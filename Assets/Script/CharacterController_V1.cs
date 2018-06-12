@@ -6,8 +6,8 @@ public class CharacterController_V1 : Character {
 
 	// Use this for initialization
 	void Start () {
-		base.speed = 8;
-		base.jumpVelocity = 4f;
+		base.speed = 12;
+		base.jumpVelocity = 8f;
 		base.Start ();
 		
 	}
