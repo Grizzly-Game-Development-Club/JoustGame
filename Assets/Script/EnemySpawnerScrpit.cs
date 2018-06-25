@@ -5,24 +5,35 @@ using UnityEngine;
 public class EnemySpawnerScrpit : MonoBehaviour {
 
     public GameObject Enemy;
-    float randX;
-    Vector2 whereToSpawn;
     public float spawnRate = 5f;
-    float nextSpawn = 0.0f;
+    private Vector2 whereToSpawn;
+    private float nextSpawn = 0.0f;
+    private float enemyBottomEdge = 0;
+    private bool spaceOccupied;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    // Use this for initialization
+    void Start () {
+        enemyBottomEdge = Enemy.GetComponent<BoxCollider2D>().size.y / 2;
+        spaceOccupied = false;
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		if(Time.time > nextSpawn)
+		if(Time.time > nextSpawn && spaceOccupied == false )
         {
             nextSpawn = Time.time + spawnRate;
-            randX = Random.Range(3.7f, 8.9f);
-            whereToSpawn = new Vector2(randX, transform.position.y);
+            whereToSpawn = new Vector2(transform.position.x, transform.position.y + enemyBottomEdge);
             Instantiate(Enemy, whereToSpawn, Quaternion.identity);
         }
 	}
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        spaceOccupied = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        spaceOccupied = false;
+    }
 }
