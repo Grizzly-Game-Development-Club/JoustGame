@@ -27,7 +27,7 @@ public class Character : MonoBehaviour {
 	private bool isAlive;
 
 	//Reference to Game Manager Script
-	JoustGameManager gameManager;
+	//JoustGameManager gameManager;
 
 	// Use this for initialization
 	public void Start() {
@@ -38,7 +38,7 @@ public class Character : MonoBehaviour {
 		leftEdge = GameObject.Find("Edge Collider/Left").transform.position.x;
 		rightEdge = GameObject.Find("Edge Collider/Right").transform.position.x;
 		//Set Game Manager
-		gameManager = GameObject.Find("Game Manager").GetComponent<JoustGameManager>();
+		//gameManager = GameObject.Find("Game Manager").GetComponent<JoustGameManager>();
 	}
 
 	// Update is called once per frame
@@ -124,7 +124,7 @@ public class Character : MonoBehaviour {
 			this.transform.position = new Vector3(leftEdge + 1.2f, this.transform.position.y, this.transform.position.z);
 			break;
 		case "Bottom":
-			End();
+			//End();
 			break;
 		}
 
@@ -142,7 +142,7 @@ public class Character : MonoBehaviour {
 		}
 	}
 
-
+    /*
 	//On Player Death
 	void End() {
 		Destroy(this);
@@ -150,5 +150,5 @@ public class Character : MonoBehaviour {
 		gameManager.setPlayerDeath(true);
 		gameManager.changeGameStatus("gameOverStatus", true);
 	}
-
+    */
 }

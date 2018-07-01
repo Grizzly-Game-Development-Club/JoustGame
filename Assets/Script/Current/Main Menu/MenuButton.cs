@@ -5,36 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class MainMenu : MonoBehaviour {
+public class MenuButton : MonoBehaviour {
 
-    public EventSystem eventSystem;
-    public GameObject selectedObject;
-
-    private bool buttonSelected;
-
-
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetAxisRaw("Vertical") != 0 && buttonSelected == false) 
-        {
-            eventSystem.SetSelectedGameObject(selectedObject);
-            buttonSelected = true;
-        }
-    }
-
-    private void OnDisable()
+    public void PlayGame(int sceneIndex)
     {
-        buttonSelected = false;
-    }
-
-
-    public void PlayGame(int sceneIndex) {
         SceneManager.LoadScene(sceneIndex);
     }
 
@@ -52,13 +26,15 @@ public class MainMenu : MonoBehaviour {
 
     public void Settings()
     {
+        /*
         Button[] buttons = GameObject.Find("Main Menu Panel").GetComponentsInChildren<Button>();
 
-        foreach (Button value in buttons) {
+        foreach (Button value in buttons)
+        {
             value.interactable = !value.interactable;
 
         }
-
+        */
     }
 
     public void Credits()
@@ -69,10 +45,10 @@ public class MainMenu : MonoBehaviour {
 
     public void ExitGame()
     {
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-    #else
+#else
         Application.Quit ();
-    #endif
+#endif
     }
 }

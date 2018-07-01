@@ -2,18 +2,142 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JoustGameManager : MonoBehaviour {
+public class JoustGameManager_Master : MonoBehaviour {
 
-    public string gameLevelName = "";
-    private Dictionary<string, bool> gameStatus = new Dictionary<string, bool>();
+    //Store script own instance
+    public static JoustGameManager_Master instance;
 
+    /*Call MakeSingleton when game start regardless of
+    *if the gameobject is disable or not
+    */
+    private void Awake()
+    {
+        MakeSingleton();
+    }
+
+    /*If there is more then one instance, then destory
+     *the current gameobject, otherwise create another
+     *concurrent scene containing gameobject that won't
+     *destory on load of another scene
+     */
+    private void MakeSingleton()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    public delegate void JoustGameManagerEventHandler();
+    public event JoustGameManagerEventHandler GoToMenuToggleEvent;
+    public event JoustGameManagerEventHandler ExitGameToggleEvent;
+    public event JoustGameManagerEventHandler PauseMenuUIToggleEvent;
+    public event JoustGameManagerEventHandler PlayGameToggleEvent;
+    public event JoustGameManagerEventHandler RestartGameToggleEvent;
+    public event JoustGameManagerEventHandler DeathMenuUIToggleEvent;
+    public event JoustGameManagerEventHandler GameOverToggleEvent;
+
+
+    //Manager Variable
+    private bool isGameOver;
+    private bool isPauseMenuOn;
+
+    //Game Variable
+    private float gameTime;
+    private string gameLevelName;
+
+
+    //Player Variable
     private bool playerDeath;
     private int playerScore;
+    public int testScore;
+
+    //
+    private Dictionary<string, bool> gameEvent = new Dictionary<string, bool>();
+
 
     private GameObject DeathUI;
     private GameObject PauseUI;
 
 
+    bool checkGameMode() {
+        return true;
+    }
+
+    //GoToMenuToggleEvent
+    public void CallEventGoToMenuToggle() {
+        if (GoToMenuToggleEvent != null) {
+            GoToMenuToggleEvent();
+        }
+
+    }
+
+    //ExitGameToggleEvent
+    public void CallEventExitGameToggle() {
+        if (ExitGameToggleEvent != null)
+        {
+            ExitGameToggleEvent();
+        }
+    }
+
+    //PauseMenuUIToggleEvent
+    public void CallEventPauseMenuUIToggle() {
+        if (PauseMenuUIToggleEvent != null)
+        {
+            PauseMenuUIToggleEvent();
+        }
+    }
+
+    //PlayGameToggleEvent
+    public void CallEventPlayGameToggle()
+    {
+        if (PlayGameToggleEvent != null)
+        {
+            PlayGameToggleEvent();
+        }
+    }
+
+    //RestartGameToggleEvent
+    public void CallEventRestartGameToggle()
+    {
+        if (RestartGameToggleEvent != null)
+        {
+            RestartGameToggleEvent();
+        }
+    }
+
+    //DeathMenuUIToggleEvent
+    public void CallEventDeathMenuUIToggle()
+    {
+        if (DeathMenuUIToggleEvent != null)
+        {
+            DeathMenuUIToggleEvent();
+        }
+    }
+
+    //GameOverToggleEvent
+    public void CallEventGameOverToggle()
+    {
+        if (GameOverToggleEvent != null)
+        {
+            GameOverToggleEvent();
+        }
+    }
+
+
+
+
+
+
+
+
+
+    /*
     // Use this for initialization
     void Start () {
         gameStatus.Add("playGameStatus", true);
@@ -146,5 +270,5 @@ public class JoustGameManager : MonoBehaviour {
         Time.timeScale = 0;
     }
 
-
+    */
 }

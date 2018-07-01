@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterController_V1 : Character {
-
+    /*
 	// Use this for initialization
 	void Start () {
 		base.speed = 12;
@@ -28,4 +28,5 @@ public class CharacterController_V1 : Character {
 		}
 		base.Move ();
 	}
+    */
 }

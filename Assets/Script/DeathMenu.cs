@@ -12,7 +12,7 @@ public class DeathMenu : MonoBehaviour
     public GameObject selectedObject;
 
     private bool buttonSelected;
-
+/*
     //Reference to Game Manager Script
     JoustGameManager gameManager;
 
@@ -28,6 +28,7 @@ public class DeathMenu : MonoBehaviour
         //Set Game Manager
         gameManager = GameObject.Find("Game Manager").GetComponent<JoustGameManager>();
     }
+    */
 
     public void playAgain()
     {

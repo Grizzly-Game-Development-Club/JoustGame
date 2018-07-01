@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour {
 
+    //Player Speed
     public int playerSpeed = 8;
+
+    //Player Sprite Direction
     private bool facingRight = false;
-    private float moveX;
+
+
+    //Player Jump Velocity
     private float jumpVelocity = 4f;
+
+    //Store Horizontal Movement
+    private float moveX;
+
+    //Check if player is touching the ground
     public bool isGrounded = true;
+
+    //Variable to hold the player Rigidbody
     Rigidbody2D playerRB;
-    
 
-/*<<<<<<< HEAD
-    public float leftBorder;
-    public float rightBorder;
-=======*/
-//>>>>>>> Hieu-Changes
-
-    // These are the stamina values
-    public int totalStamina = 100;
-    public int actionCost = 5;
-
-
+    //Check if player is dead
+    private bool playerDeath;
 
     public bool isAttacking;
     public int attackCounter;
@@ -31,11 +33,10 @@ public class playerController : MonoBehaviour {
     float leftEdge;
     float rightEdge;
 
-    //Use to check if player is dead
-    private bool playerDeath;
+    
 
     //Reference to Game Manager Script
-    JoustGameManager gameManager;
+    //JoustGameManager gameManager;
 
     //Unused
     //public bool isPressingJump = false;
@@ -70,7 +71,11 @@ public class playerController : MonoBehaviour {
         playerDeath = false;
 
         //Set Game Manager
-        gameManager = GameObject.Find("Game Manager").GetComponent<JoustGameManager>();
+        //gameManager = GameObject.Find("Game Manager").GetComponent<JoustGameManager>();
+
+
+
+
     }
 
     // Update is called once per frame
@@ -120,6 +125,7 @@ public class playerController : MonoBehaviour {
     }
     void Jump()
     {
+        /*
         //Jumping code
         if (Input.GetButtonDown("Jump") ) {
             if (totalStamina >= actionCost) // check if there is enough stamina to cause
@@ -132,6 +138,7 @@ public class playerController : MonoBehaviour {
                 Debug.Log("Out of Stamina");
             }
         }
+        */
        /* else
         {
             Vector2 vel = GetComponent<Rigidbody2D>().velocity;
@@ -140,6 +147,7 @@ public class playerController : MonoBehaviour {
         /*else if (Input.GetButton("Jump") && inAir) {
             GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, tapJumpMultiplier);
         }*/
+        
     }
 
     void Attack()
@@ -183,7 +191,7 @@ public class playerController : MonoBehaviour {
                     this.transform.position = new Vector3(leftEdge + 0.7f, this.transform.position.y, this.transform.position.z);
                     break;
                 case "Bottom":
-                    Death();
+                    //Death();
                     break;
             }
 
@@ -201,12 +209,12 @@ public class playerController : MonoBehaviour {
         }
     }
 
-
+    /*
     //On Player Death
     void Death() {
         Destroy(this);
         gameManager.setPlayerDeath(true);
         gameManager.changeGameStatus("gameOverStatus", true);
     }
-
+    */
 }

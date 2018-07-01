@@ -12,6 +12,7 @@ public class PauseMenu : MonoBehaviour {
 
     private bool buttonSelected;
 
+    /*
     //Reference to Game Manager Script
     JoustGameManager gameManager;
 
@@ -30,4 +31,5 @@ public class PauseMenu : MonoBehaviour {
     public void resume() {
         gameManager.changeGameStatus("resumeGameStatus", true);
     }
+    */
 }
