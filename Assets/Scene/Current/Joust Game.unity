@@ -1189,7 +1189,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1519743319564650, guid: 9534713531b6a0643b569c91c84595a2, type: 2}
       propertyPath: m_Name
-      value: Spawner (1)
+      value: Enemy Spawner Point 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114341996141819192, guid: 9534713531b6a0643b569c91c84595a2, type: 2}
@@ -5279,7 +5279,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4997324339679004, guid: 237025d4308620343bb56fdbdafa854c, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1214563989446712, guid: 237025d4308620343bb56fdbdafa854c, type: 2}
       propertyPath: m_Name
@@ -5528,7 +5528,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1519743319564650, guid: 9534713531b6a0643b569c91c84595a2, type: 2}
       propertyPath: m_Name
-      value: Spawner (2)
+      value: Enemy Spawner Point 3
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114341996141819192, guid: 9534713531b6a0643b569c91c84595a2, type: 2}
@@ -6505,11 +6505,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4428794448541764, guid: 9534713531b6a0643b569c91c84595a2, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -41.5
+      value: -41
       objectReference: {fileID: 0}
     - target: {fileID: 4428794448541764, guid: 9534713531b6a0643b569c91c84595a2, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -8.2
+      value: -8.53
       objectReference: {fileID: 0}
     - target: {fileID: 4428794448541764, guid: 9534713531b6a0643b569c91c84595a2, type: 2}
       propertyPath: m_LocalPosition.z
@@ -6537,7 +6537,22 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1519743319564650, guid: 9534713531b6a0643b569c91c84595a2, type: 2}
       propertyPath: m_Name
-      value: Enemy_Spawner 1
+      value: Enemy Spawner Point 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 61037352979495922, guid: 9534713531b6a0643b569c91c84595a2,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 61037352979495922, guid: 9534713531b6a0643b569c91c84595a2,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 61037352979495922, guid: 9534713531b6a0643b569c91c84595a2,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: 12.5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114341996141819192, guid: 9534713531b6a0643b569c91c84595a2, type: 2}
