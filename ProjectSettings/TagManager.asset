@@ -43,6 +43,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: ModelLayer
+  - name: Background
     uniqueID: 3295273089
+    locked: 0
+  - name: Foreground
+    uniqueID: 2716699101
+    locked: 0
+  - name: Player & Enemy
+    uniqueID: 1349301801
+    locked: 0
+  - name: Interactable Object
+    uniqueID: 3414349281
     locked: 0
