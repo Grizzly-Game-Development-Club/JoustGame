@@ -6,8 +6,8 @@ public class Spawner_Manager : MonoBehaviour {
 
 
     /* Spawning - Currently in the process of spawning a wave
-     * Waiting - After a wave has been spawn, state keeps checking if all enemy has died
-     * Counting - Used at starts to count how many spawn point there is
+     * Waiting - Spawning is put on hold
+     * Counting - Counting time between wave
      */
     public enum SpawnManagerState { SPAWNING, WAITING, COUNTING };
 
@@ -22,35 +22,22 @@ public class Spawner_Manager : MonoBehaviour {
         public float rate;
     }
 
-
-    //Wave Array of wave class
-    public wave[] waves;
-
-    //Reference to all spawnpoint gameobject
-    public GameObject[] spawnPoints;
-
-    public List<int> availableSpawnPoints;
-
-    //Time until next wave
-    public float timeBetweenWaves = 5f;
-
-    //Hold Countdown time for wave spawning
-    public float waveCountDown;
-
-    //Spawn State
-    private SpawnManagerState state = SpawnManagerState.COUNTING;
-
     System.Random ran = new System.Random();
 
-    //
-    private int nextWave = 0;
+    public List<wave> waves;
 
+    public GameObject[] spawnPoints;
+    public List<int> availableSpawnPoints;
 
+    private int enemyIDAssigner = 0;
+    public List<int> enemyAliveList;
     private float searchCountDown = 1f;
 
+    public float timeBetweenWaves = 5f;
+    public float waveCountDown;
+    private int nextWave = 0;
 
-    
-    
+    private SpawnManagerState state = SpawnManagerState.COUNTING;
 
 
 	// Use this for initialization
@@ -78,10 +65,12 @@ public class Spawner_Manager : MonoBehaviour {
         }
         else
         {
-            waveCountDown -= Time.deltaTime;
+            if (waves.Count != 0) {
+                waveCountDown -= Time.deltaTime;
+            }
         }
 
-        /*
+        
         if (state == SpawnManagerState.WAITING)
         {
             //Check if enemies are still alive
@@ -94,7 +83,7 @@ public class Spawner_Manager : MonoBehaviour {
             }
             else return;
         }
-        */
+        
 
 
     }
@@ -103,7 +92,6 @@ public class Spawner_Manager : MonoBehaviour {
     {
         for (int counter = 0; counter <= spawnPoints.Length-1; counter++)
         {
-            Debug.Log("Currrent Counter:" + counter);
             spawnPoints[counter].GetComponent<Enemy_Spawner>().SpawnerID = counter;
             spawnPoints[counter].GetComponent<Enemy_Spawner>().Enemy = waves[0].enemy;
             spawnPoints[counter].GetComponent<Enemy_Spawner>().SpawnerManager = this.gameObject;
@@ -114,26 +102,22 @@ public class Spawner_Manager : MonoBehaviour {
 
     IEnumerator SpawnWave(wave _wave)
     {
-        Debug.Log("Spawning wave:" + _wave.name);
         state = SpawnManagerState.SPAWNING;
 
-        for (int i = 0; i < _wave.count; i++)
-        {
+        if(_wave.count != 0){
             //Finds a random spawner that is not occupied
             if (availableSpawnPoints.Count != 0) {
                 int randomSpawnerNumber = ran.Next(0, availableSpawnPoints.Count-1);
                 int randomSpawnID = availableSpawnPoints[randomSpawnerNumber];
 
                 SpawnEnemy(_wave.enemy, spawnPoints[randomSpawnID].GetComponent<Enemy_Spawner>().SpawnVector2);
+                _wave.count--;
                 yield return new WaitForSeconds(1f / _wave.rate);
             }
             else {
                 Debug.Log("No Available SpawnPoint");
-                yield return new WaitForSeconds(1f);
-            }
-
-
-            
+                yield return new WaitUntil(() => availableSpawnPoints.Count != 0);
+            }  
         }
 
         state = SpawnManagerState.WAITING;
@@ -141,55 +125,51 @@ public class Spawner_Manager : MonoBehaviour {
         yield break;
     }
 
-    /*
+    
     void WaveCompleted()
     {
 
         Debug.Log("wave completed");
 
-        state = SpawnState.COUNTING;
+        state = SpawnManagerState.COUNTING;
         waveCountDown = timeBetweenWaves;
-        if (nextWave + 1 > waves.Length - 1)
+        waves.RemoveAt(0);
+        
+        if (waves.Count == 0)
         {
-            //Can enter end screen or a different event here
-            nextWave = 0;
-            Debug.Log("All waves Complete. Looping...");
-        }
-        else
-        {
-            nextWave++;
-        }
+            Debug.Log("All waves Complete");
+        }       
  
     }
-    */
+    
 
-    /*
+    
     bool EnemyIsAlive()
     {
         searchCountDown -= Time.deltaTime;
         if (searchCountDown <= 0f)
         {
             searchCountDown = 1f;
-            if (GameObject.FindGameObjectWithTag("Enemy") == null)
+            if (enemyAliveList.Count == 0)
             {
                 return false;
             }
         }
         return true;
     }
-    */
+    
 
-
-    void checkSpawnerOccupation() {
-
-    }
 
     void SpawnEnemy(GameObject enemy, Vector2 spawnPoint)
     {
-        //spawn enemy
-        //Debug.Log("Spawning Enemy" + enemy.name);
 
-        Instantiate(enemy, spawnPoint, Quaternion.identity);
+        GameObject enemyReference = Instantiate(enemy, spawnPoint, Quaternion.identity) as GameObject;
+
+        enemyReference.GetComponent<Enemy_Controller>().EnemyID = enemyIDAssigner;
+        enemyReference.GetComponent<Enemy_Controller>().SpawnerManager = this.gameObject;
+        enemyAliveList.Add(enemyIDAssigner);
+        enemyIDAssigner++;
+
 
     }
 }
