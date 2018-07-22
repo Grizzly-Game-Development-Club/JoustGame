@@ -26,7 +26,14 @@ public class Enemy_Controller : MonoBehaviour {
     private void OnDisable()
     {
         Debug.Log("Deleted");
-        spawnerManager.GetComponent<Spawner_Manager>().enemyAliveList.Remove(enemyID);
+
+        if (spawnerManager != null)
+        {
+            spawnerManager.GetComponent<Spawner_Manager>().enemyAliveList.Remove(enemyID);
+        }
+        else {
+            Debug.Log("Untracked Monster");
+        }
     }
 
     // Use this for initialization

@@ -4,89 +4,62 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour {
 
-    //Player Speed
+    Rigidbody2D playerRB;
     public int playerSpeed = 8;
-
-    //Player Sprite Direction
+    private bool playerDeath;
+    public bool isGrounded = true;   
     private bool facingRight = false;
-
-
-    //Player Jump Velocity
     private float jumpVelocity = 4f;
 
-    //Store Horizontal Movement
+    public bool canMove;
     private float moveX;
-
-    //Check if player is touching the ground
-    public bool isGrounded = true;
-
-    //Variable to hold the player Rigidbody
-    Rigidbody2D playerRB;
-
-    //Check if player is dead
-    private bool playerDeath;
-
+    
     public bool isAttacking;
-    public int attackCounter;
+    public int attackForce = 500;
+    public float attackDuration = 1.5f;
+    private float attackDurationCountdown;
+    public bool attackOnCooldown;
+    public float attackCooldown = 3f;
+    private float attackCooldownCountdown;
+
+    public Collider2D lanceHitBox;
 
     //Use for Transform Player Position if Touching Edge
     float leftEdge;
     float rightEdge;
 
-    
-
-    //Reference to Game Manager Script
-    //JoustGameManager gameManager;
-
-    //Unused
-    //public bool isPressingJump = false;
-    //public bool inAir = true;
-    //public int tapJumpMultiplier = 1f;
-
     // Use this for initialization
     void Start() {
-        Camera main_cam = Camera.main;
-/*<<<<<<< HEAD
-		float height = 2f * main_cam.orthographicSize;
-		float width = height * main_cam.aspect;
-		leftBorder = 0- width / 2; //-16;//(int)main_cam.transform.position.x;
-		rightBorder = width / 2;//(int)main_cam.pixelWidth;
-=======*/
-
-        
-
-//>>>>>>> Hieu-Changes
-        attackCounter = 10;
         playerRB = gameObject.GetComponent<Rigidbody2D>();
+
+        canMove = true;
+        attackOnCooldown = false;
         isAttacking = false;
-
-
         moveX = 0;
 
         //Set Left and Right Border X Position
-        leftEdge = GameObject.Find("Edge Collider/Left").transform.position.x;
-        rightEdge = GameObject.Find("Edge Collider/Right").transform.position.x;
+        //leftEdge = GameObject.Find("Edge Collider/Left").transform.position.x;
+        //rightEdge = GameObject.Find("Edge Collider/Right").transform.position.x;
 
         //Set player to be alive at the start of game
         playerDeath = false;
-
-        //Set Game Manager
-        //gameManager = GameObject.Find("Game Manager").GetComponent<JoustGameManager>();
-
-
-
 
     }
 
     // Update is called once per frame
     void Update() {
-        PlayerMove();
+        if (canMove)
+        {
+            PlayerMove();
+        }
         Jump();
         Attack();
     }
+
     void PlayerMove() {
         //Controls
         moveX = Input.GetAxis("Horizontal");
+        playerRB.velocity = new Vector2(moveX * playerSpeed, playerRB.velocity.y);
 
         //Animations
 
@@ -97,86 +70,100 @@ public class playerController : MonoBehaviour {
         else if (moveX > 0.0f && facingRight) {
             FlipPlayer();
         }
-        int dirX = 0;
-       
-        if (isAttacking)
-        {
-            
-            if (facingRight)
-                dirX = -1;
-            else
-                dirX = 1;
-
-            Vector2 force = new Vector2(dirX * 500, 0);
-            playerRB.AddForce(force);
-            attackCounter--;
-            if (attackCounter <= 0)
-            {
-                attackCounter = 10;
-                isAttacking = false;
-                moveX = 0;
-            }
-        }
-        //Physics
-      
-        playerRB.velocity = new Vector2(moveX * playerSpeed, playerRB.velocity.y);
         
-
+       
     }
+
+    private IEnumerator HitScan(Collider2D col) {
+        while (true) {
+            Debug.Log("Attacking");
+
+            ContactFilter2D colFilter = new ContactFilter2D();
+            colFilter.SetLayerMask(LayerMask.GetMask("Hitbox"));
+            Collider2D[] result = new Collider2D[10];
+
+            int count = Physics2D.OverlapCollider(lanceHitBox, colFilter, result);
+
+            foreach (Collider2D r in result) {
+                if (r != null) {
+                    Debug.Log(r.name);
+                }
+
+            }
+            
+            yield return null;
+        }
+    }
+
+
     void Jump()
-    {
-        /*
+    {      
         //Jumping code
         if (Input.GetButtonDown("Jump") ) {
-            if (totalStamina >= actionCost) // check if there is enough stamina to cause
-            {
                 playerRB.velocity = new Vector2(playerRB.velocity.x, jumpVelocity);
-                totalStamina -= actionCost;
-            }
-            else
-            {
-                Debug.Log("Out of Stamina");
-            }
-        }
-        */
-       /* else
-        {
-            Vector2 vel = GetComponent<Rigidbody2D>().velocity;
-            vel = new Vector2(GetComponent<Rigidbody2D>().velocity.x, vel.y-jumpVelocity);
-        }*/
-        /*else if (Input.GetButton("Jump") && inAir) {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, tapJumpMultiplier);
-        }*/
-        
+          
+        }      
     }
 
     void Attack()
     {
         if (!isAttacking)
         {
-            if (Input.GetKeyDown(KeyCode.X))
+            if (!attackOnCooldown)
             {
-                isAttacking = true;                        
+                if (Input.GetKeyDown(KeyCode.X))
+                {
+                    isAttacking = true;
+                    attackDurationCountdown = attackDuration;
+                    StartCoroutine("HitScan", lanceHitBox);
+                }
+            }
+            else {
+                attackCooldownCountdown -= Time.deltaTime;
+                if (attackCooldownCountdown <= 0) {
+                    attackOnCooldown = false;
+                }
             }
         }
+
         
+        //If Player Attacking
+        if (isAttacking)
+        {
+            int dirX = 0;
+            attackDurationCountdown -= Time.deltaTime;
+            if (attackDurationCountdown >= 0)
+            {
+                //canMove = false;
+                if (facingRight)
+                    dirX = -1;
+                else
+                    dirX = 1;
+
+                Vector2 force = new Vector2(dirX * attackForce, 0);
+                playerRB.AddForce(force);
+            }
+            else {
+                isAttacking = false;
+                attackOnCooldown = true;
+                attackCooldownCountdown = attackCooldown;
+                StopCoroutine("HitScan");
+                canMove = true;
+            }
+
+
+        }
+
     }
+
+
+
     void FlipPlayer() {
         facingRight = !facingRight;
         Vector2 localScale = gameObject.transform.localScale;
         localScale.x *= -1;
         transform.localScale = localScale;
-    }/*
-    void OnTriggerEnter2D()
-    {
-        grounded = true;
-        //inAir = false;
     }
-    void OnTriggerExit2D()
-    {
-        grounded = false;
-        //inAir = true;
-    }*/
 
     void OnCollisionEnter2D(Collision2D theCollision)
     {
@@ -208,13 +195,4 @@ public class playerController : MonoBehaviour {
             isGrounded = false;
         }
     }
-
-    /*
-    //On Player Death
-    void Death() {
-        Destroy(this);
-        gameManager.setPlayerDeath(true);
-        gameManager.changeGameStatus("gameOverStatus", true);
-    }
-    */
 }
