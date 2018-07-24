@@ -1,0 +1,357 @@
+fileFormatVersion: 2
+guid: 6bfec3bf7ff18d64cb48412e6e7bdf97
+timeCreated: 1528667093
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: knight_head
+    21300002: mount_tail1
+    21300004: mount_leg1
+    21300006: mount_neck1
+    21300008: mount_head
+    21300010: knight_body
+    21300012: mount_tail2
+    21300014: mount_leg2
+    21300016: mount_neck2
+    21300018: knight_arm1
+    21300020: knight_shoulder_joint
+    21300022: mount_body
+    21300024: knight_arm2
+    21300026: knight_elbow_joint
+    21300028: mount_leg3
+    21300030: knight_hand
+    21300032: knight_lance
+    21300034: mount_foot
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: knight_head
+      rect:
+        serializedVersion: 2
+        x: 138.94849
+        y: 989
+        width: 489.0039
+        height: 279.6278
+      alignment: 9
+      pivot: {x: 0.4990788, y: 0.49708933}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mount_tail1
+      rect:
+        serializedVersion: 2
+        x: 972.65015
+        y: 856
+        width: 298.57422
+        height: 371.94592
+      alignment: 9
+      pivot: {x: 0.50021017, y: 0.49738416}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mount_leg1
+      rect:
+        serializedVersion: 2
+        x: 1433.4852
+        y: 874.00006
+        width: 278.06628
+        height: 335.3117
+      alignment: 9
+      pivot: {x: 0.50173205, y: 0.49655274}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mount_neck1
+      rect:
+        serializedVersion: 2
+        x: 1899.7838
+        y: 1044
+        width: 275.1366
+        height: 301.60815
+      alignment: 9
+      pivot: {x: 0.49871978, y: 0.49733365}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mount_head
+      rect:
+        serializedVersion: 2
+        x: 2387.144
+        y: 692
+        width: 483.14453
+        height: 411.51086
+      alignment: 9
+      pivot: {x: 0.5016221, y: 0.4981641}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: knight_body
+      rect:
+        serializedVersion: 2
+        x: 236.37898
+        y: 743.00006
+        width: 269.27734
+        height: 171.19049
+      alignment: 9
+      pivot: {x: 0.49436384, y: 0.4994433}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mount_tail2
+      rect:
+        serializedVersion: 2
+        x: 886.1465
+        y: 511
+        width: 294.1797
+        height: 314.79657
+      alignment: 9
+      pivot: {x: 0.49579737, y: 0.5003231}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mount_leg2
+      rect:
+        serializedVersion: 2
+        x: 1463.4053
+        y: 546.3961
+        width: 193.10559
+        height: 300.14282
+      alignment: 9
+      pivot: {x: 0.49244875, y: 0.49011272}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mount_neck2
+      rect:
+        serializedVersion: 2
+        x: 1931.3071
+        y: 648
+        width: 219.47266
+        height: 349.96533
+      alignment: 9
+      pivot: {x: 0.49980146, y: 0.49719194}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: knight_arm1
+      rect:
+        serializedVersion: 2
+        x: 209.92308
+        y: 544
+        width: 137.44142
+        height: 125.7641
+      alignment: 9
+      pivot: {x: 0.49167773, y: 0.49298647}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: knight_shoulder_joint
+      rect:
+        serializedVersion: 2
+        x: 502.8183
+        y: 563
+        width: 124.25781
+        height: 124.29877
+      alignment: 9
+      pivot: {x: 0.4964005, y: 0.49477562}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mount_body
+      rect:
+        serializedVersion: 2
+        x: 1888.7876
+        y: 28.999996
+        width: 943.10547
+        height: 594.6818
+      alignment: 9
+      pivot: {x: 0.49910897, y: 0.49942672}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: knight_arm2
+      rect:
+        serializedVersion: 2
+        x: 220.91916
+        y: 413
+        width: 97.890625
+        height: 96.456726
+      alignment: 9
+      pivot: {x: 0.49627674, y: 0.4976328}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: knight_elbow_joint
+      rect:
+        serializedVersion: 2
+        x: 507.20465
+        y: 285.53717
+        width: 137.2649
+        height: 155.42078
+      alignment: 9
+      pivot: {x: 0.49699193, y: 0.45141423}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mount_leg3
+      rect:
+        serializedVersion: 2
+        x: 1465.939
+        y: 268
+        width: 174.0625
+        height: 272.3009
+      alignment: 9
+      pivot: {x: 0.49729717, y: 0.49761117}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: knight_hand
+      rect:
+        serializedVersion: 2
+        x: 195.9281
+        y: 300
+        width: 92.03125
+        height: 92.06061
+      alignment: 9
+      pivot: {x: 0.49517837, y: 0.49967083}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: knight_lance
+      rect:
+        serializedVersion: 2
+        x: 81.96889
+        y: 87.00001
+        width: 1003.16406
+        height: 137.487
+      alignment: 9
+      pivot: {x: 0.49945083, y: 0.49095547}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mount_foot
+      rect:
+        serializedVersion: 2
+        x: 1527.4517
+        y: 19.46537
+        width: 241.44531
+        height: 209.29004
+      alignment: 9
+      pivot: {x: 0.5013494, y: 0.49469453}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 100182725612611
+  assetBundleName: 
+  assetBundleVariant: 

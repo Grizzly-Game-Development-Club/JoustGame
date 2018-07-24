@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Edge
+  - Enemy
+  - EnemyHitBox
   layers:
   - Default
   - TransparentFX
@@ -13,7 +16,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Hitbox
   - 
   - 
   - 
@@ -40,4 +43,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3295273089
+    locked: 0
+  - name: Foreground
+    uniqueID: 2716699101
+    locked: 0
+  - name: Player & Enemy
+    uniqueID: 1349301801
+    locked: 0
+  - name: Interactable Object
+    uniqueID: 3414349281
     locked: 0

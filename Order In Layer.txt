@@ -1,0 +1,17 @@
+Background:
+0: Sky
+1: Sun
+2: Cloud
+
+Foreground:
+0: Tower Wall
+1: Tower Window
+1: Wood Platform
+1: Shingle
+
+Enemy & Player
+0: Enemy
+1: Player
+
+Interactable Object
+0: Item Drop
