@@ -203,16 +203,31 @@ GameObject:
   m_Component:
   - component: {fileID: 129362135}
   - component: {fileID: 129362134}
+  - component: {fileID: 129362136}
   - component: {fileID: 129362133}
   - component: {fileID: 129362132}
   m_Layer: 0
-  m_Name: p1_spritesheet_0
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!50 &129362132
+--- !u!114 &129362132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 129362131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a423d1f01af1764ca2e8ecdce0e33fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypointManager: {fileID: 1671823409}
+  nextWaypoint: {fileID: 0}
+  speed: 3
+--- !u!50 &129362133
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -224,25 +239,14 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 5
+  m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &129362133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 129362131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe73c34c3b0085a40adf6d24b4a47fd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Constraints: 4
 --- !u!212 &129362134
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -294,12 +298,66 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 129362131}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.8, y: 0.03, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
+  m_Father: {fileID: 337159848}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &129362136
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 129362131}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.67, y: 0.93}
+    newSize: {x: 0.67, y: 0.93}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.67, y: 0.93}
+  m_EdgeRadius: 0
+--- !u!1 &337159847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 337159848}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &337159848
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 337159847}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.8, y: 0.03, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 129362135}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &418643054
 GameObject:
@@ -411,10 +469,10 @@ GameObject:
   - component: {fileID: 482198633}
   - component: {fileID: 482198634}
   - component: {fileID: 482198635}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: 10
-  m_TagString: Untagged
-  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_TagString: Waypoint
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -442,15 +500,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d0accc291c9474784088bafb70c291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WaypointID: 10
-  wayPointType: 0
   validWaypointConnection:
-  - waypointObject: {fileID: 1684970547}
-    direction: 0
-  - waypointObject: {fileID: 1457136153}
-    direction: 0
-  - waypointObject: {fileID: 1827739572}
-    direction: 0
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!58 &482198635
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -478,7 +531,7 @@ GameObject:
   m_Layer: 0
   m_Name: Horizontal Lane 1
   m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -493,7 +546,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1671823411}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &605902369
 BoxCollider2D:
@@ -504,7 +557,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0}
@@ -732,7 +785,7 @@ GameObject:
   m_Layer: 0
   m_Name: Horizontal Lane 3
   m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -747,7 +800,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1671823411}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1431331711
 BoxCollider2D:
@@ -758,7 +811,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0}
@@ -784,10 +837,10 @@ GameObject:
   - component: {fileID: 1457136154}
   - component: {fileID: 1457136155}
   - component: {fileID: 1457136156}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: 9
-  m_TagString: Untagged
-  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_TagString: Waypoint
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -815,15 +868,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d0accc291c9474784088bafb70c291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WaypointID: 9
-  wayPointType: 0
   validWaypointConnection:
-  - waypointObject: {fileID: 1684970547}
-    direction: 0
-  - waypointObject: {fileID: 1827739572}
-    direction: 0
-  - waypointObject: {fileID: 482198632}
-    direction: 1
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!58 &1457136156
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -894,48 +942,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1671823409}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91dcf15e27a7fb942b730e461d8efe71, type: 3}
+  m_Script: {fileID: 11500000, guid: 7daa96d3031d15e45812aa8d4a058495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wayPointLayerArray:
-  - wayPointLayerID: 1
-    wayPoint:
-    - wayPointId: 1
-      wayPointObject: {fileID: 0}
-      validNextWaypoint: []
-  - wayPointLayerID: 2
-    wayPoint:
-    - wayPointId: 0
-      wayPointObject: {fileID: 0}
-      validNextWaypoint: []
-    - wayPointId: 0
-      wayPointObject: {fileID: 0}
-      validNextWaypoint: []
-    - wayPointId: 0
-      wayPointObject: {fileID: 0}
-      validNextWaypoint: []
-  - wayPointLayerID: 3
-    wayPoint:
-    - wayPointId: 0
-      wayPointObject: {fileID: 0}
-      validNextWaypoint: []
-    - wayPointId: 0
-      wayPointObject: {fileID: 0}
-      validNextWaypoint: []
-    - wayPointId: 0
-      wayPointObject: {fileID: 0}
-      validNextWaypoint: []
-  - wayPointLayerID: 4
-    wayPoint:
-    - wayPointId: 0
-      wayPointObject: {fileID: 0}
-      validNextWaypoint: []
-    - wayPointId: 0
-      wayPointObject: {fileID: 0}
-      validNextWaypoint: []
-    - wayPointId: 0
-      wayPointObject: {fileID: 0}
-      validNextWaypoint: []
+  horizontalLane:
+  - {fileID: 1830090454}
 --- !u!4 &1671823411
 Transform:
   m_ObjectHideFlags: 0
@@ -946,11 +957,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0.085306875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 605902368}
   - {fileID: 1830090455}
   - {fileID: 1431331710}
-  - {fileID: 605902368}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1684970547
 GameObject:
@@ -962,10 +973,10 @@ GameObject:
   - component: {fileID: 1684970548}
   - component: {fileID: 1684970549}
   - component: {fileID: 1684970550}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: 2
-  m_TagString: Untagged
-  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_TagString: Waypoint
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -993,13 +1004,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d0accc291c9474784088bafb70c291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WaypointID: 2
-  wayPointType: 1
   validWaypointConnection:
-  - waypointObject: {fileID: 1827739572}
-    direction: 1
-  - waypointObject: {fileID: 1457136153}
-    direction: 1
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!58 &1684970550
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1025,10 +1032,10 @@ GameObject:
   - component: {fileID: 1827739573}
   - component: {fileID: 1827739574}
   - component: {fileID: 1827739575}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: 5
-  m_TagString: Untagged
-  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_TagString: Waypoint
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1056,15 +1063,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d0accc291c9474784088bafb70c291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WaypointID: 5
-  wayPointType: 0
   validWaypointConnection:
-  - waypointObject: {fileID: 1684970547}
-    direction: 0
-  - waypointObject: {fileID: 1457136153}
-    direction: 1
-  - waypointObject: {fileID: 482198632}
-    direction: 1
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!58 &1827739575
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1089,10 +1091,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1830090455}
   - component: {fileID: 1830090456}
+  - component: {fileID: 1830090457}
   m_Layer: 0
   m_Name: Horizontal Lane 2
   m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1111,7 +1114,7 @@ Transform:
   - {fileID: 1457136154}
   - {fileID: 482198633}
   m_Father: {fileID: 1671823411}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1830090456
 BoxCollider2D:
@@ -1122,7 +1125,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0}
@@ -1138,3 +1141,14 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 17.8, y: 3.33}
   m_EdgeRadius: 0
+--- !u!114 &1830090457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1830090454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8922214b3601e240b6de7d26ed9f612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

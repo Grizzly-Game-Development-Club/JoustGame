@@ -1,17 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Global_Enum;
 
 public class Spawner_Manager : MonoBehaviour {
 
-
-    /* Spawning - Currently in the process of spawning a wave
-     * Waiting - Spawning is put on hold
-     * Counting - Counting time between wave
-     */
-    public enum SpawnManagerState { SPAWNING, WAITING, COUNTING };
-
-    
     //Wave Class
     [System.Serializable]
     public class wave
