@@ -32,9 +32,11 @@ public class Waypoint : MonoBehaviour {
     {
         Enemy_Controller enemyScript = collision.GetComponent<Enemy_Controller>();
 
+
         if (enemyScript.nextWaypoint.transform == this.transform) {
-            enemyScript.EnemyState = EnemyState.ARRIVED;
+            Debug.Log("Work");
             enemyScript.CurrentWaypoint = this.gameObject;
+            enemyScript.EnemyState = EnemyState.ARRIVED; 
         }
     }
 

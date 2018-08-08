@@ -21,6 +21,8 @@ public class Enemy_Controller : MonoBehaviour {
     public float sailDuration = 1f;
     public float glideDuration = 1f;
     public float correctionDuration = 1f;
+    [Range(1, 99)]
+    public int correctionFrequency = 30;
     private float movementActionCountdown;
     private Direction enemyDirection;
 
@@ -77,9 +79,28 @@ public class Enemy_Controller : MonoBehaviour {
                 MoveTowardsWaypoint();
                 break;
             case EnemyState.ARRIVED:
-                nextWaypoint = waypointManagerScript.findNextWaypoint(CurrentWaypoint, enemyDirection);
-                CurrentWaypoint = null;
-                enemyState = EnemyState.TRAVELING;
+                Debug.Log(CurrentWaypoint.name);
+                if (CurrentWaypoint.GetComponent<Waypoint>().WayPointType.Equals(WaypointType.EDGE))
+                {
+                    Vector2 newPosition = new Vector2(0,0);
+                    if (EnemyDirection.Equals(Direction.RIGHT)) {
+                        newPosition = new Vector2(Mathf.Abs(Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x), CurrentWaypoint.transform.position.y);
+                    }
+                    else if (EnemyDirection.Equals(Direction.LEFT))
+                    {
+                        newPosition = new Vector2((Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x), CurrentWaypoint.transform.position.y);
+                    }
+                    Debug.Log(newPosition);
+                    Vector2.MoveTowards(transform.position, newPosition, enemySpeed * Time.deltaTime);
+                    //CurrentWaypoint = null;
+                    enemyState = EnemyState.ARRIVED;
+                }
+                else
+                {
+                    nextWaypoint = waypointManagerScript.findNextWaypoint(CurrentWaypoint, enemyDirection);
+                    CurrentWaypoint = null;
+                    enemyState = EnemyState.TRAVELING;
+                }
                 break;
             case EnemyState.INTERRUPTED:
                 break;
@@ -114,6 +135,8 @@ public class Enemy_Controller : MonoBehaviour {
 
         float distanceBetweenStartAndEnd = Mathf.Sqrt(Mathf.Pow((end.x - start.x), 2) + Mathf.Pow((end.y - start.y), 2));
 
+        
+
         if (distanceBetweenStartAndEnd <= 3f) {
             resetSetting();
             StopAllCoroutines();
@@ -122,10 +145,12 @@ public class Enemy_Controller : MonoBehaviour {
         }
         else if (movementActionCountdown <= 0)
         {
+            /*
             string s = System.String.Format("Soaring: {0},Sailing: {1},Gliding: {2}," +
                 "Flapping: {3},Diving: {4},Correction: {5},",
                 soaringNumber, sailingNumber, glidingNumber, flappingNumber, divingNumber, correctionNumber);
             Debug.Log(s);
+            */
             StopAllCoroutines();
             setRandomMovement();
             switch (EnemyMovementType) {
@@ -164,6 +189,12 @@ public class Enemy_Controller : MonoBehaviour {
 
             }
         }
+        
+        else if (!(distanceBetweenStartAndEnd <= 3f) && Mathf.RoundToInt(Mathf.Abs((this.transform.position.x+1000)-(nextWaypoint.transform.position.x+1000))) <= 3f)
+        {
+            EnemyRB.velocity = new Vector2(0, 0);
+            transform.position = Vector2.MoveTowards(transform.position, nextWaypoint.transform.position, enemySpeed * Time.deltaTime);
+        }
         else
         {
             movementActionCountdown -= Time.deltaTime;
@@ -179,13 +210,12 @@ public class Enemy_Controller : MonoBehaviour {
         resetSetting();
         int randomNum = ran.Next(0, 100);
 
-        if (Enumerable.Range(0, 30).Contains(randomNum)) {
+        if (Enumerable.Range(0, correctionFrequency).Contains(randomNum)) {
             Debug.Log("Start Correction");
             EnemyMovementType = MovementType.CORRECTION;
         }
-        else if (Enumerable.Range(31, 100).Contains(randomNum)) {
+        else if (Enumerable.Range(correctionFrequency+1, 100).Contains(randomNum)) {
             int randomNum2 = ran.Next(0, 100);
-            Debug.Log(randomNum2);
 
             if (Enumerable.Range(0, 28).Contains(randomNum2))
             {
