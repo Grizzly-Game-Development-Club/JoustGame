@@ -19,31 +19,28 @@ public class Waypoint_Manager : MonoBehaviour {
         }
 	}
 
-    public void test() {
-        Debug.Log("test");
-    }
-
-    public GameObject findNearestWaypoint(Transform enemyPosition, DIRECTION enemyDirection) {
+    public GameObject findNearestWaypoint(Transform enemyPosition, Direction enemyDirection) {
         List<GameObject> validTransformList = new List<GameObject>();
         float leastDistance = float.MaxValue;
         GameObject nearestWaypoint = null;
 
-        
 
-        foreach (GameObject waypointGameobject in waypointList) {
+        for (int counter = 0; counter <= waypointList.Length - 1; counter++)
+        {
+            GameObject waypointGameobject = waypointList[counter];
             Transform waypointPosition = waypointGameobject.GetComponent<Transform>();
 
-            if (waypointPosition.position.x < enemyPosition.position.x && enemyDirection.Equals(DIRECTION.LEFT)) {
+            if (waypointPosition.position.x < enemyPosition.position.x && enemyDirection.Equals(Direction.LEFT)) {
                 validTransformList.Add(waypointGameobject);
             }
-            else if (enemyPosition.position.x < waypointPosition.position.x && enemyDirection.Equals(DIRECTION.RIGHT)) {
+            else if (enemyPosition.position.x < waypointPosition.position.x && enemyDirection.Equals(Direction.RIGHT)) {
                 validTransformList.Add(waypointGameobject);
             }
         }
-        Debug.Log(waypointList.Length);
 
-        foreach (GameObject validWaypoint in validTransformList)
+        for (int counter = 0; counter <= validTransformList.Count - 1; counter++)
         {
+            GameObject validWaypoint = validTransformList[counter];
             Vector2 start = AsVector2(enemyPosition);
             Vector2 end = AsVector2(validWaypoint.GetComponent<Transform>());
 
@@ -58,12 +55,26 @@ public class Waypoint_Manager : MonoBehaviour {
         }
         return nearestWaypoint;
     }
+    
 
-    List<Valid_Waypoint> filterValidWaypoint(DIRECTION enemyDirection, List<Valid_Waypoint> validWaypointList) {
-        foreach (Valid_Waypoint validWaypoint in validWaypointList) {
-            if (!validWaypoint.WaypointDirection.Equals(enemyDirection)) {
+    public GameObject findNextWaypoint(GameObject currentWaypoint, Direction enemyDirection) {
+        System.Random ran = new System.Random();
+        List<Valid_Waypoint> validWaypointList = filterValidWaypoint(currentWaypoint.GetComponent<Waypoint>().validWaypointConnection, enemyDirection);
+        int randomSpawnerNumber = ran.Next(0, validWaypointList.Count);
+        return validWaypointList[randomSpawnerNumber].WaypointObject;
+    }
+    
+
+
+    List<Valid_Waypoint> filterValidWaypoint(List<Valid_Waypoint> validWaypointList, Direction enemyDirection) {
+        for (int counter = 0; counter <= validWaypointList.Count-1; counter++)
+        {
+            Valid_Waypoint validWaypoint = validWaypointList[counter];
+            if (!validWaypoint.WaypointDirection.Equals(enemyDirection))
+            {
                 validWaypointList.Remove(validWaypoint);
             }
+
         }
         return validWaypointList;
     }

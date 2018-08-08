@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Global_Enum;
 
-public class Valid_Waypoint : MonoBehaviour {
+[System.Serializable]
+public class Valid_Waypoint : System.Object {
 
-
-    private GameObject waypointObject;
-    private DIRECTION waypointDirection;
+    public GameObject waypointObject;
+    public Direction waypointDirection;
 
     public GameObject WaypointObject
     {
@@ -15,13 +15,13 @@ public class Valid_Waypoint : MonoBehaviour {
         set { waypointObject = value; }
     }
 
-    public DIRECTION WaypointDirection
+    public Direction WaypointDirection
     {
         get { return waypointDirection; }
         set { waypointDirection = value; }
     }
 
-    public Valid_Waypoint(GameObject waypointObject, DIRECTION direction)
+    public Valid_Waypoint(GameObject waypointObject, Direction direction)
     {
         this.WaypointObject = waypointObject;
         this.WaypointDirection = direction;
