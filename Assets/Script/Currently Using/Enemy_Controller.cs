@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Global_Enum;
-
+using System.Linq;
 
 public class Enemy_Controller : MonoBehaviour {
 
-    
+
 
     private GameObject spawnerManager;
     public GameObject waypointManager;
@@ -20,6 +20,7 @@ public class Enemy_Controller : MonoBehaviour {
     public float soarDuration = 1f;
     public float sailDuration = 1f;
     public float glideDuration = 1f;
+    public float correctionDuration = 1f;
     private float movementActionCountdown;
     private Direction enemyDirection;
 
@@ -29,6 +30,15 @@ public class Enemy_Controller : MonoBehaviour {
 
     private Rigidbody2D enemyRB;
     private bool enemyGrounded;
+
+    System.Random ran = new System.Random();
+
+    private int soaringNumber = 0;
+    private int sailingNumber = 0;
+    private int glidingNumber = 0;
+    private int flappingNumber = 0;
+    private int divingNumber = 0;
+    private int correctionNumber = 0;
 
     private EnemyState enemyState;
     private MovementType enemyMovementType;
@@ -57,15 +67,15 @@ public class Enemy_Controller : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate () {
+    void FixedUpdate() {
         switch (enemyState) {
             case EnemyState.SPAWNED:
                 nextWaypoint = waypointManagerScript.findNearestWaypoint(this.GetComponent<Transform>(), enemyDirection);
-                enemyState = EnemyState.TRAVELING;           
+                enemyState = EnemyState.TRAVELING;
                 break;
             case EnemyState.TRAVELING:
                 MoveTowardsWaypoint();
-                break; 
+                break;
             case EnemyState.ARRIVED:
                 nextWaypoint = waypointManagerScript.findNextWaypoint(CurrentWaypoint, enemyDirection);
                 CurrentWaypoint = null;
@@ -76,9 +86,9 @@ public class Enemy_Controller : MonoBehaviour {
             case EnemyState.DEATH:
                 break;
         }
-	}
+    }
 
-    
+
 
     private void MoveTowardsWaypoint()
     {
@@ -106,39 +116,47 @@ public class Enemy_Controller : MonoBehaviour {
 
         if (distanceBetweenStartAndEnd <= 3f) {
             resetSetting();
-
             StopAllCoroutines();
-            EnemyRB.gravityScale = 1;
+            EnemyRB.velocity = new Vector2(0,0);
             transform.position = Vector2.MoveTowards(transform.position, nextWaypoint.transform.position, enemySpeed * Time.deltaTime);
         }
         else if (movementActionCountdown <= 0)
         {
-            resetSetting();
+            string s = System.String.Format("Soaring: {0},Sailing: {1},Gliding: {2}," +
+                "Flapping: {3},Diving: {4},Correction: {5},",
+                soaringNumber, sailingNumber, glidingNumber, flappingNumber, divingNumber, correctionNumber);
+            Debug.Log(s);
             StopAllCoroutines();
             setRandomMovement();
             switch (EnemyMovementType) {
                 case MovementType.SOARING:
                     movementActionCountdown = soarDuration;
                     StartCoroutine("ExecuteSoaring");
+                    soaringNumber++;
                     break;
                 case MovementType.SAILING:
-                    Debug.Log("Start");
                     movementActionCountdown = soarDuration;
                     StartCoroutine("ExecuteSailing");
+                    sailingNumber++;
                     break;
                 case MovementType.GLIDING:
                     movementActionCountdown = glideDuration;
                     StartCoroutine("ExecuteGliding");
+                    glidingNumber++;
                     break;
                 case MovementType.FLAPPING:
-                    Debug.Log("Flapping");
                     movementActionCountdown = .5f;
                     StartCoroutine("ExecuteFlapping");
+                    flappingNumber++;
                     break;
                 case MovementType.DIVING:
-                    Debug.Log("Diving");
                     movementActionCountdown = .3f;
                     StartCoroutine("ExecuteDiving");
+                    divingNumber++;
+                    break;
+                case MovementType.CORRECTION:
+                    movementActionCountdown = correctionDuration;
+                    correctionNumber++;
                     break;
                 default:
                     Debug.Log("Movement Type not configured");
@@ -148,44 +166,56 @@ public class Enemy_Controller : MonoBehaviour {
         }
         else
         {
-            //Debug.Log("Current Action is " + System.Enum.GetName(typeof(MovementType),EnemyMovementType));
             movementActionCountdown -= Time.deltaTime;
+            if (EnemyMovementType.Equals(MovementType.CORRECTION)){
+                EnemyRB.velocity = new Vector2(0, 0);
+                transform.position = Vector2.MoveTowards(transform.position, nextWaypoint.transform.position, enemySpeed * Time.deltaTime);
+            }
         }
     }
 
     void setRandomMovement()
     {
-        System.Random ran = new System.Random();
+        resetSetting();
         int randomNum = ran.Next(0, 100);
 
-        if (System.Linq.Enumerable.Range(1, 100).Contains(randomNum)) {
-
+        if (Enumerable.Range(0, 30).Contains(randomNum)) {
+            Debug.Log("Start Correction");
+            EnemyMovementType = MovementType.CORRECTION;
         }
-        switch (randomSpawnerNumber) {
-            case 0-25:
-                Debug.Log("Start SOARING");
-                EnemyMovementType = MovementType.SOARING;
-                break;    
-            case 1:
-                Debug.Log("Start SAILING");
-                EnemyMovementType = MovementType.SAILING;
-                break;
-            case 2:
-                Debug.Log("Start GLIDING");
-                EnemyMovementType = MovementType.GLIDING;     
-                break;
-            case 3:
-                Debug.Log("Start FLAPPING");
-                EnemyMovementType = MovementType.FLAPPING;
-                break;
-            case 4:
-                Debug.Log("Start DIVING");
-                EnemyMovementType = MovementType.DIVING;
-                break;
+        else if (Enumerable.Range(31, 100).Contains(randomNum)) {
+            int randomNum2 = ran.Next(0, 100);
+            Debug.Log(randomNum2);
 
-            default:
-                Debug.Log("Movement Type not configured");
-                break;
+            if (Enumerable.Range(0, 28).Contains(randomNum2))
+            {
+                //Debug.Log("Start SAILING");
+                EnemyMovementType = MovementType.SAILING;
+
+            }
+            if (Enumerable.Range(29, 46).Contains(randomNum2)) {
+                //Debug.Log("Start SOARING");
+                EnemyMovementType = MovementType.SOARING;
+
+            }
+            if (Enumerable.Range(47, 64).Contains(randomNum2))
+            {
+                //Debug.Log("Start GLIDING");
+                EnemyMovementType = MovementType.GLIDING;
+
+            }
+            if (Enumerable.Range(65, 82).Contains(randomNum2))
+            {
+                //Debug.Log("Start FLAPPING");
+                EnemyMovementType = MovementType.FLAPPING;
+
+            }
+            if (Enumerable.Range(83, 100).Contains(randomNum2))
+            {
+                //Debug.Log("Start DIVING");
+                EnemyMovementType = MovementType.DIVING;
+
+            }
 
         }
 
@@ -193,23 +223,23 @@ public class Enemy_Controller : MonoBehaviour {
 
     IEnumerator ExecuteSailing()
     {
-
         EnemySpeed = EnemySpeed + .5f;
 
         while (movementActionCountdown > 0) {
-            
+
             EnemyRB.gravityScale = -EnemyRB.gravityScale;
-            yield return new WaitForSeconds(sailDuration/2);
+            yield return new WaitForSeconds(sailDuration / 2);
         }
 
         yield break;
     }
 
-    IEnumerator ExecuteSoaring() {       
+    IEnumerator ExecuteSoaring() {
 
         EnemyRB.drag = LinearDrag;
         enemyRB.gravityScale = -1;
         yield return new WaitUntil(() => movementActionCountdown <= .25f);
+        EnemyRB.gravityScale = 1;
 
         yield break;
     }
@@ -225,14 +255,26 @@ public class Enemy_Controller : MonoBehaviour {
 
     IEnumerator ExecuteFlapping()
     {
-        EnemyRB.velocity = new Vector2(EnemyRB.velocity.x, FlapVelocity);
+        EnemyRB.velocity = new Vector2(EnemyRB.velocity.x + 1f, FlapVelocity);
         yield break;
     }
 
     IEnumerator ExecuteDiving()
     {
-        //enemyRB.gravityScale = -1;
-        EnemyRB.velocity = new Vector2(EnemyRB.velocity.x, -FlapVelocity/2);
+        EnemyRB.velocity = new Vector2(EnemyRB.velocity.x + 1f, -FlapVelocity / 2);
+        yield break;
+    }
+
+    IEnumerator ExecuteCorrection()
+    {
+        EnemyRB.drag = 0;
+        EnemyRB.gravityScale = 0;
+        
+        while (movementActionCountdown > 0)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, nextWaypoint.transform.position, enemySpeed * Time.deltaTime);
+            yield return new WaitForSeconds(.000001f);
+        }
         yield break;
     }
 
@@ -319,6 +361,12 @@ public class Enemy_Controller : MonoBehaviour {
     {
         get { return glideDuration; }
         set { glideDuration = value; }
+    }
+
+    public float CorrectionDuration
+    {
+        get { return correctionDuration; }
+        set { correctionDuration = value; }
     }
 
     public float MovementActionCountdown
