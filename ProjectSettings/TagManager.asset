@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - EnemyHitBox
   - Waypoint
+  - Waypoint Manager
   layers:
   - Default
   - TransparentFX

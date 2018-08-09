@@ -26,6 +26,7 @@ public class Enemy_Controller : MonoBehaviour {
     private float movementActionCountdown;
     private Direction enemyDirection;
 
+    private float moveX = 0;
     private float speedHolder;
     private float dragHolder;
     private float gravityHolder;
@@ -57,6 +58,7 @@ public class Enemy_Controller : MonoBehaviour {
 
     void Start() {
         EnemyRB = this.GetComponent<Rigidbody2D>();
+        waypointManager = GameObject.FindGameObjectWithTag("Waypoint Manager");
         waypointManagerScript = waypointManager.GetComponent<Waypoint_Manager>();
 
         dragHolder = LinearDrag;
@@ -70,34 +72,29 @@ public class Enemy_Controller : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate() {
+
+        checkColliderCollision();
+
+
         switch (enemyState) {
             case EnemyState.SPAWNED:
                 nextWaypoint = waypointManagerScript.findNearestWaypoint(this.GetComponent<Transform>(), enemyDirection);
+
                 enemyState = EnemyState.TRAVELING;
                 break;
             case EnemyState.TRAVELING:
                 MoveTowardsWaypoint();
                 break;
             case EnemyState.ARRIVED:
-                Debug.Log(CurrentWaypoint.name);
-                if (CurrentWaypoint.GetComponent<Waypoint>().WayPointType.Equals(WaypointType.EDGE))
+                nextWaypoint = waypointManagerScript.findNextWaypoint(CurrentWaypoint, enemyDirection);
+                if (nextWaypoint.GetComponent<Waypoint>().WayPointType.Equals(WaypointType.EDGE) &&
+                    CurrentWaypoint.GetComponent<Waypoint>().WayPointType.Equals(WaypointType.EDGE))
                 {
-                    Vector2 newPosition = new Vector2(0,0);
-                    if (EnemyDirection.Equals(Direction.RIGHT)) {
-                        newPosition = new Vector2(Mathf.Abs(Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x), CurrentWaypoint.transform.position.y);
-                    }
-                    else if (EnemyDirection.Equals(Direction.LEFT))
-                    {
-                        newPosition = new Vector2((Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x), CurrentWaypoint.transform.position.y);
-                    }
-                    Debug.Log(newPosition);
-                    Vector2.MoveTowards(transform.position, newPosition, enemySpeed * Time.deltaTime);
-                    //CurrentWaypoint = null;
-                    enemyState = EnemyState.ARRIVED;
+                    Debug.Log("Test");
+                    EnemyRB.velocity = new Vector2(moveX * enemySpeed, EnemyRB.velocity.y);
                 }
                 else
                 {
-                    nextWaypoint = waypointManagerScript.findNextWaypoint(CurrentWaypoint, enemyDirection);
                     CurrentWaypoint = null;
                     enemyState = EnemyState.TRAVELING;
                 }
@@ -106,15 +103,49 @@ public class Enemy_Controller : MonoBehaviour {
                 break;
             case EnemyState.DEATH:
                 break;
+            case EnemyState.EDGE:
+                CurrentWaypoint = null;
+                break;
         }
     }
 
+    private void checkColliderCollision() {
 
+        //Corner locations in world coordinates
+        Vector2 upperRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        Vector2 lowerLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
+
+        //If Past Left Side of Screen
+        if (this.transform.position.x  < lowerLeft.x) {
+            
+            //Appear on right
+            this.transform.position = new Vector2(upperRight.x - 0.7f, this.transform.position.y);
+            this.EnemyDirection = Direction.LEFT;
+            EnemyState = EnemyState.ARRIVED;
+        }
+        //If Past Right Side of Screen
+        if (this.transform.position.x > upperRight.x)
+        {
+            this.transform.position = new Vector2(lowerLeft.x + 0.7f, this.transform.position.y);
+            this.EnemyDirection = Direction.RIGHT;
+            EnemyState = EnemyState.ARRIVED;
+        }
+        //If Reach Top Side of Screen
+        if (this.transform.position.y > upperRight.y)
+        {
+            EnemyState = EnemyState.ARRIVED;
+        }
+        //If Reach Bottom Side of Screen
+        if (this.transform.position.y < lowerLeft.y + 0.7f)
+        {
+            EnemyState = EnemyState.DEATH;
+        }
+
+    }
 
     private void MoveTowardsWaypoint()
     {
 
-        float moveX = 0;
         switch (EnemyDirection) {
             case Direction.LEFT:
                 moveX = -1;

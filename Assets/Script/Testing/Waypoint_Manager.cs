@@ -5,9 +5,6 @@ using Global_Enum;
 
 public class Waypoint_Manager : MonoBehaviour {
 
-    //
-
-    public GameObject[] horizontalLane;
 
     private GameObject[] waypointList;
 
@@ -19,12 +16,15 @@ public class Waypoint_Manager : MonoBehaviour {
         }
 	}
 
+
     public GameObject findNearestWaypoint(Transform enemyPosition, Direction enemyDirection) {
+
+
         List<GameObject> validTransformList = new List<GameObject>();
         float leastDistance = float.MaxValue;
         GameObject nearestWaypoint = null;
 
-
+        //Filter out Valid Waypoint Depending on Direction
         for (int counter = 0; counter <= waypointList.Length - 1; counter++)
         {
             GameObject waypointGameobject = waypointList[counter];
@@ -38,6 +38,7 @@ public class Waypoint_Manager : MonoBehaviour {
             }
         }
 
+        //Find the Nearest Waypoint of all the Valid Waypoint
         for (int counter = 0; counter <= validTransformList.Count - 1; counter++)
         {
             GameObject validWaypoint = validTransformList[counter];

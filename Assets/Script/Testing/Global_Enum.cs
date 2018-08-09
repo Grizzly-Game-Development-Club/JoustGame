@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Global_Enum {
 
     public enum Direction { LEFT, RIGHT };
-    public enum EnemyState { SPAWNED, TRAVELING, ARRIVED, INTERRUPTED, DEATH };
+    public enum EnemyState { SPAWNED, TRAVELING, ARRIVED, INTERRUPTED, DEATH, EDGE };
     public enum WaypointType { NORMAL, EDGE };
     public enum SpawnManagerState { SPAWNING, WAITING, COUNTING };
 

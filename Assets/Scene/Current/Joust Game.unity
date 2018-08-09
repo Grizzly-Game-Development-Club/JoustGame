@@ -1213,7 +1213,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 337291712}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8511f12af6406354f9350d0ae2500233, type: 3}
+  m_Script: {fileID: 11500000, guid: 1375bf059ac43c1469f1653e1d03b6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &345482547
@@ -5241,7 +5241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c4d4f05772ec784da88aa92846196ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelGameOver: {fileID: 2027480239}
 --- !u!1001 &1415065820
 Prefab:
   m_ObjectHideFlags: 0
@@ -5552,7 +5551,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1504477276}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8511f12af6406354f9350d0ae2500233, type: 3}
+  m_Script: {fileID: 11500000, guid: 1375bf059ac43c1469f1653e1d03b6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1504715450
@@ -6576,7 +6575,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1646748168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8511f12af6406354f9350d0ae2500233, type: 3}
+  m_Script: {fileID: 11500000, guid: 1375bf059ac43c1469f1653e1d03b6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1659858516
@@ -7705,11 +7704,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1947434443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cd4549e643f27d40b9b5a4c5316c3b5, type: 3}
+  m_Script: {fileID: 11500000, guid: c3d83a8aa9712cc4b901d2d02c449683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - name: First Wave
+  - name: 1st Wave
     enemy: {fileID: 1393501986852562, guid: 14ad7f560ae2a2947a68b8ec82a0c5da, type: 2}
     count: 5
     rate: 1
@@ -7718,6 +7717,7 @@ MonoBehaviour:
   - {fileID: 337291712}
   - {fileID: 1504477276}
   availableSpawnPoints: 
+  enemyAliveList: 
   timeBetweenWaves: 5
   waveCountDown: 0
 --- !u!1 &1992875140
