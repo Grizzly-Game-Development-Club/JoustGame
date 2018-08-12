@@ -9,6 +9,8 @@ TagManager:
   - EnemyHitBox
   - Waypoint
   - Waypoint Manager
+  - Spawner
+  - Spawner Manager
   layers:
   - Default
   - TransparentFX

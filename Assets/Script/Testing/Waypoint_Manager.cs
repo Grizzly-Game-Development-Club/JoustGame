@@ -10,10 +10,12 @@ public class Waypoint_Manager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        if (waypointList == null) {
-            
+
+        if (GameObject.FindGameObjectsWithTag("Waypoint").Length != 0)
             waypointList = GameObject.FindGameObjectsWithTag("Waypoint");
-        }
+        else
+            Debug.LogError("No Waypoint has been detected. Make sure that your waypoint object is tag with (Waypoint)");
+        
 	}
 
 
@@ -57,10 +59,13 @@ public class Waypoint_Manager : MonoBehaviour {
         return nearestWaypoint;
     }
     
-
+    //Find the Next Waypoint from the current waypoint using the enemy direction
     public GameObject findNextWaypoint(GameObject currentWaypoint, Direction enemyDirection) {
+
         System.Random ran = new System.Random();
+        //Filter out the Valid Waypoint that doesn't have the enemy direction
         List<Valid_Waypoint> validWaypointList = filterValidWaypoint(currentWaypoint.GetComponent<Waypoint>().validWaypointConnection, enemyDirection);
+
         int randomSpawnerNumber = ran.Next(0, validWaypointList.Count);
         return validWaypointList[randomSpawnerNumber].WaypointObject;
     }
@@ -68,16 +73,20 @@ public class Waypoint_Manager : MonoBehaviour {
 
 
     List<Valid_Waypoint> filterValidWaypoint(List<Valid_Waypoint> validWaypointList, Direction enemyDirection) {
-        for (int counter = 0; counter <= validWaypointList.Count-1; counter++)
+        List<Valid_Waypoint> copyList = new List<Valid_Waypoint>(validWaypointList);
+
+        //Search through the list of validwaypoint of the waypoint
+        for (int counter = 0; counter <= copyList.Count-1; counter++)
         {
-            Valid_Waypoint validWaypoint = validWaypointList[counter];
+
+            Valid_Waypoint validWaypoint = copyList[counter];
             if (!validWaypoint.WaypointDirection.Equals(enemyDirection))
             {
-                validWaypointList.Remove(validWaypoint);
+                copyList.Remove(validWaypoint);
             }
 
         }
-        return validWaypointList;
+        return copyList;
     }
 
     private Vector2 AsVector2(Transform transform)

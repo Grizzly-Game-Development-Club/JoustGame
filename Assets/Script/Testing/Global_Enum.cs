@@ -4,18 +4,12 @@ using UnityEngine;
 
 namespace Global_Enum {
 
-    public enum Direction { LEFT, RIGHT };
-    public enum EnemyState { SPAWNED, TRAVELING, ARRIVED, INTERRUPTED, DEATH, EDGE };
-    public enum WaypointType { NORMAL, EDGE };
+    public enum Direction { LEFT, RIGHT, UP, DOWN };
+    public enum EnemyState { SPAWNED, FIX,TRAVELING, ARRIVED, INTERRUPTED, DEATH, EDGE };
     public enum SpawnManagerState { SPAWNING, WAITING, COUNTING };
 
-    /* Soaring - Fly Up
-     * Sailiing - Fly Straight
-     * Gliding- Fly Down
-     * Flapping - Sharp Fly Up
-     * Diving - Sharp Fly Down
-     * Correction - Fly Toward Waypoint
-     */
-    public enum MovementType{SOARING, SAILING, GLIDING, FLAPPING, DIVING, CORRECTION };
+    //Enemy Movement
+    public enum EnemyMovementType{SAILING, CORRECTION, KNOCKBACK };
+    public enum EnemyMovementTypeVertical {UPWARD,  NONE,  DOWNWARD}
 
 }
