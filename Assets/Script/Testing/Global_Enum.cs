@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace Global_Enum {
 
-    public enum Direction { LEFT, RIGHT, UP, DOWN };
-    public enum EnemyState { SPAWNED, FIX,TRAVELING, ARRIVED, INTERRUPTED, DEATH, EDGE };
+    public enum Direction { LEFT, RIGHT};
+    public enum CollideDirection { UP, DOWN, LEFT, RIGHT };
+    public enum EnemyState { SPAWNED, TRAVELING, INTERRUPTED, DEATH};
     public enum SpawnManagerState { SPAWNING, WAITING, COUNTING };
 
     //Enemy Movement
-    public enum EnemyMovementType{SAILING, CORRECTION, KNOCKBACK };
+    public enum EnemyMovementType{SAILING, KNOCKBACK, TOPEDGE, BOTTOMEDGE};
     public enum EnemyMovementTypeVertical {UPWARD,  NONE,  DOWNWARD}
 
 }
