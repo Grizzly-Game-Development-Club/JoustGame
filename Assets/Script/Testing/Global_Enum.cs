@@ -6,7 +6,7 @@ namespace Global_Enum {
 
     public enum Direction { LEFT, RIGHT};
     public enum CollideDirection { UP, DOWN, LEFT, RIGHT };
-    public enum EnemyState { SPAWNED, TRAVELING, INTERRUPTED, DEATH};
+    public enum EnemyState { SPAWNED, TRAVELING, DEATH};
     public enum SpawnManagerState { SPAWNING, WAITING, COUNTING };
 
     //Enemy Movement

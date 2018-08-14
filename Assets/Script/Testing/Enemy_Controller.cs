@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Global_Enum;
 using System.Linq;
-using System;
 
 public class Enemy_Controller : MonoBehaviour
 {
@@ -16,26 +15,25 @@ public class Enemy_Controller : MonoBehaviour
     private EnemyMovementTypeVertical enemyMovementTypeVertical;
 
     private Rigidbody2D enemyRB;
-    private int enemyID;
-    public Direction enemyDirection;
-    public bool enemyGrounded;
+    public int enemyID;
+    private Direction enemyDirection;
+    private bool enemyGrounded;
     public LayerMask groundLayer;
 
     private float moveX = 0;
     private float moveY = 0;
-    public float movementActionCountdown;
-    //private float acceleration;
+    private float movementActionCountdown;
 
     public float horizontalSpeed = 0f;
-    public float horizontalSpeedMax;
+    public float horizontalSpeedMax = 8f;
     public float verticalSpeed = 0f;
     public float verticalSpeedMax = 2f;
     private bool adjustVertical = false;
 
-    private float knockBackLength = .5f;
+    public float knockBackLength = .5f;
     public float knockBackForce = 2f;
-    public CollideDirection knockBackDirection;
-    public bool isKnockBack;
+    private CollideDirection knockBackDirection;
+    private bool isKnockBack;
 
     System.Random ran = new System.Random();
 
@@ -64,7 +62,18 @@ public class Enemy_Controller : MonoBehaviour
         float randomNum = (float)GetRandomNumber(3, 8);
         horizontalSpeedMax = randomNum;
         EnemyGrounded = false;
-        //EnemyDirection = Direction.RIGHT;
+
+        int randomNumDirection = ran.Next(0, 1);
+        switch (randomNumDirection) {
+            case 0:
+                EnemyDirection = Direction.LEFT;
+                break;
+            case 1:
+                EnemyDirection = Direction.RIGHT;
+                break;
+        }
+
+
         EnemyState = EnemyState.TRAVELING;
     }
 
@@ -89,6 +98,7 @@ public class Enemy_Controller : MonoBehaviour
 
             //State when a enemy is dead
             case EnemyState.DEATH:
+                Destroy(this.gameObject);
                 break;
 
         }
@@ -138,9 +148,6 @@ public class Enemy_Controller : MonoBehaviour
         }
         else
         {
-            if (isKnockBack == true) {
-                //Debug.Log(movementActionCountdown);
-            }
 
             movementActionCountdown -= Time.deltaTime;
 
@@ -168,7 +175,6 @@ public class Enemy_Controller : MonoBehaviour
         if (KnockBackDirection.Equals(CollideDirection.RIGHT) || KnockBackDirection.Equals(CollideDirection.LEFT)) {
             while (movementActionCountdown >= storeTime / 2)
             {
-                Debug.Log(EnemyRB.velocity);
                 if (KnockBackDirection.Equals(CollideDirection.RIGHT))
                 {
                     EnemyRB.velocity = new Vector2(knockBackForce * 1.5f, VerticalSpeed * KnockBackForce);
@@ -185,7 +191,6 @@ public class Enemy_Controller : MonoBehaviour
                 {
                     EnemyRB.velocity = new Vector2(EnemyRB.velocity.x, VerticalSpeed * KnockBackForce);
                 }
-                Debug.Log(EnemyRB.velocity);
                 yield return new WaitForFixedUpdate();
             }
 
@@ -195,7 +200,6 @@ public class Enemy_Controller : MonoBehaviour
 
             while (movementActionCountdown >= 0)
             {
-                Debug.Log(movementActionCountdown + "Test2");
                 if (KnockBackDirection.Equals(CollideDirection.RIGHT))
                 {
                     EnemyRB.velocity = new Vector2(knockBackForce * 1.5f, -VerticalSpeed * KnockBackForce);
