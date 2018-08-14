@@ -11,6 +11,7 @@ TagManager:
   - Waypoint Manager
   - Spawner
   - Spawner Manager
+  - Solid
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - 
   - Hitbox
   - Waypoint
-  - 
+  - GroundLayer
   - 
   - 
   - 

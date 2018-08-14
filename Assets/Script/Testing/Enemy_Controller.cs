@@ -18,11 +18,12 @@ public class Enemy_Controller : MonoBehaviour
     private Rigidbody2D enemyRB;
     private int enemyID;
     public Direction enemyDirection;
-    private bool enemyGrounded;
+    public bool enemyGrounded;
+    public LayerMask groundLayer;
 
     private float moveX = 0;
     private float moveY = 0;
-    private float movementActionCountdown;
+    public float movementActionCountdown;
     //private float acceleration;
 
     public float horizontalSpeed = 0f;
@@ -35,7 +36,6 @@ public class Enemy_Controller : MonoBehaviour
     public float knockBackForce = 2f;
     public CollideDirection knockBackDirection;
     public bool isKnockBack;
-    
 
     System.Random ran = new System.Random();
 
@@ -71,7 +71,9 @@ public class Enemy_Controller : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        EnemyGrounded = Physics2D.OverlapPoint(transform.GetChild(0).position, groundLayer);
         checkColliderCollision();
+
 
         switch (enemyState)
         {
@@ -100,7 +102,7 @@ public class Enemy_Controller : MonoBehaviour
         Vector2 upperRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         Vector2 lowerLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
         
-        if (movementActionCountdown <= 0)
+        if (movementActionCountdown <= 0 & isKnockBack == false)
         {
             /* Stop all current Coroutines and reset the Vertical Speed
              * Adjust the action duration and begin countdown
@@ -116,9 +118,12 @@ public class Enemy_Controller : MonoBehaviour
             float distanceBetweenTopBorder = Mathf.Sqrt(Mathf.Pow((upperRight.x - upperRight.x), 2) + Mathf.Pow((upperRight.y - this.transform.position.y), 2));
             float distanceBetweenBottomBorder = Mathf.Sqrt(Mathf.Pow((lowerLeft.x - lowerLeft.x), 2) + Mathf.Pow((lowerLeft.y - this.transform.position.y), 2));
 
-            if (distanceBetweenTopBorder <= 2f)
+            if (EnemyGrounded == true) {
+                SetRandomMovementVertical(33, 66);
+            }
+            else if (distanceBetweenTopBorder <= 2f)
             {
-                SetRandomMovementVertical(67, 100);                
+                SetRandomMovementVertical(67, 100);
             }
             else if (distanceBetweenBottomBorder <= 2f)
             {
@@ -133,6 +138,10 @@ public class Enemy_Controller : MonoBehaviour
         }
         else
         {
+            if (isKnockBack == true) {
+                //Debug.Log(movementActionCountdown);
+            }
+
             movementActionCountdown -= Time.deltaTime;
 
             if (HorizontalSpeed <= HorizontalSpeedMax)
@@ -152,12 +161,14 @@ public class Enemy_Controller : MonoBehaviour
     {
         AdjustVertical = true;
         VerticalSpeed = 0;
-
+        
         float storeTime = movementActionCountdown;
+        
 
         if (KnockBackDirection.Equals(CollideDirection.RIGHT) || KnockBackDirection.Equals(CollideDirection.LEFT)) {
             while (movementActionCountdown >= storeTime / 2)
             {
+                Debug.Log(EnemyRB.velocity);
                 if (KnockBackDirection.Equals(CollideDirection.RIGHT))
                 {
                     EnemyRB.velocity = new Vector2(knockBackForce * 1.5f, VerticalSpeed * KnockBackForce);
@@ -174,13 +185,17 @@ public class Enemy_Controller : MonoBehaviour
                 {
                     EnemyRB.velocity = new Vector2(EnemyRB.velocity.x, VerticalSpeed * KnockBackForce);
                 }
-                yield return new WaitForEndOfFrame();
+                Debug.Log(EnemyRB.velocity);
+                yield return new WaitForFixedUpdate();
             }
 
             VerticalSpeed = 0;
 
+            //Debug.Log(movementActionCountdown);
+
             while (movementActionCountdown >= 0)
             {
+                Debug.Log(movementActionCountdown + "Test2");
                 if (KnockBackDirection.Equals(CollideDirection.RIGHT))
                 {
                     EnemyRB.velocity = new Vector2(knockBackForce * 1.5f, -VerticalSpeed * KnockBackForce);
@@ -197,7 +212,7 @@ public class Enemy_Controller : MonoBehaviour
                 {
                     EnemyRB.velocity = new Vector2(EnemyRB.velocity.x, VerticalSpeed * KnockBackForce);
                 }
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForFixedUpdate();
             }
         }
         else if (KnockBackDirection.Equals(CollideDirection.UP) || KnockBackDirection.Equals(CollideDirection.DOWN)) {
@@ -211,17 +226,17 @@ public class Enemy_Controller : MonoBehaviour
                 {
                     EnemyRB.velocity = new Vector2(EnemyRB.velocity.x, VerticalSpeed * KnockBackForce);
                 }
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForFixedUpdate();
             }
 
 
         }
-
+        
         
 
         AdjustVertical = false;
         VerticalSpeed = 0;
-
+        isKnockBack = false;
 
         if (!EnemyDirection.Equals(KnockBackDirection))
         {
@@ -234,7 +249,7 @@ public class Enemy_Controller : MonoBehaviour
                 EnemyDirection = Direction.RIGHT;
             }
         }
-        isKnockBack = false;
+        
 
         yield break;
     }
@@ -322,7 +337,6 @@ public class Enemy_Controller : MonoBehaviour
         //Set Enemy Movement Type
         int randomNum = ran.Next(minRange, Maxrange);
 
-        //Debug.Log(randomNum);
 
         if (Enumerable.Range(0, 32).Contains(randomNum))
         {
@@ -337,12 +351,11 @@ public class Enemy_Controller : MonoBehaviour
         }
         if (Enumerable.Range(67, 33).Contains(randomNum))
         {
-            Debug.Log(randomNum);
             EnemyMovementTypeVertical = EnemyMovementTypeVertical.DOWNWARD;
             DOWNWARD++;
         }
 
-        Debug.Log("Upward: " + UPWARD + " Downard: " + DOWNWARD + " None: " + NONE);
+        //Debug.Log("Upward: " + UPWARD + " Downard: " + DOWNWARD + " None: " + NONE);
     }
 
     //Auto Correct enemy movement to Waypoint
@@ -358,7 +371,7 @@ public class Enemy_Controller : MonoBehaviour
             {
                 AdjustVertical = true;
             }
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
         AdjustVertical = false;
 
@@ -367,33 +380,35 @@ public class Enemy_Controller : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        foreach (ContactPoint2D hitPos in collision.contacts)
-        {
-
-            if (hitPos.normal.x < 0)
+        if (EnemyGrounded == false || (EnemyGrounded == true && collision.gameObject.CompareTag("Enemy"))) {
+            foreach (ContactPoint2D hitPos in collision.contacts)
             {
 
-                KnockBackDirection = CollideDirection.LEFT;
-            }
-            else if (hitPos.normal.x > 0)
-            {
-                KnockBackDirection = CollideDirection.RIGHT;
-            }
-            else if (hitPos.normal.y < 0)
-            {
-                KnockBackDirection = CollideDirection.UP;
-            }
-            else if (hitPos.normal.y > 0)
-            {
-                KnockBackDirection = CollideDirection.DOWN;
+                if (hitPos.normal.x < 0)
+                {
+
+                    KnockBackDirection = CollideDirection.LEFT;
+                }
+                else if (hitPos.normal.x > 0)
+                {
+                    KnockBackDirection = CollideDirection.RIGHT;
+                }
+                else if (hitPos.normal.y < 0)
+                {
+                    KnockBackDirection = CollideDirection.UP;
+                }
+                else if (hitPos.normal.y > 0)
+                {
+                    KnockBackDirection = CollideDirection.DOWN;
+                }
+
             }
 
+            MovementActionCountdown = KnockBackLength;
+            isKnockBack = true;
+            StopAllCoroutines();
+            StartCoroutine("ExecuteKnockback");
         }
-
-        MovementActionCountdown = KnockBackLength;
-        isKnockBack = true;
-        StopAllCoroutines();
-        StartCoroutine("ExecuteKnockback");
     }
 
     void SwitchEnemyDirection()
@@ -412,7 +427,6 @@ public class Enemy_Controller : MonoBehaviour
     {
         return ran.NextDouble() * (maximum - minimum) + minimum;
     }
-
 
     /* Getter and Setter Method
      * ----------------------*/
