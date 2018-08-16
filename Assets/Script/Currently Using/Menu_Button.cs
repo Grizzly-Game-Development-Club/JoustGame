@@ -5,18 +5,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class MenuButton : MonoBehaviour {
+public class Menu_Button : MonoBehaviour
+{
 
     public void PlayGame(int sceneIndex)
     {
         SceneManager.LoadScene(sceneIndex);
     }
 
-    public void HowToPlay()
-    {
-
-
-    }
 
     public void Highscore()
     {
@@ -35,12 +31,6 @@ public class MenuButton : MonoBehaviour {
 
         }
         */
-    }
-
-    public void Credits()
-    {
-
-
     }
 
     public void ExitGame()

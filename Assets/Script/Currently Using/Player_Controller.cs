@@ -6,8 +6,17 @@ using Global_Enum;
 public class Player_Controller : MonoBehaviour
 {
 
+    private GameObject gameManager;
+    private Game_Manager gameManagerScript;
+
+    private PlayerStatus playerStat;
+
+    private int playerID;
     Rigidbody2D playerRB;
     public int playerSpeed = 8;
+
+    private Animator playerAnimation;
+    public bool playerGrounded;
 
     private bool isGrounded = true;
     public Direction playerDirection;
@@ -19,6 +28,7 @@ public class Player_Controller : MonoBehaviour
     private bool playerDeath;
     private float moveX;
     private float moveY;
+    private bool pickUp;
 
     private bool canMove;
     private bool isAttacking;
@@ -30,13 +40,16 @@ public class Player_Controller : MonoBehaviour
     private float attackCooldownCountdown;
 
     public Collider2D lanceHitBox;
+    public LayerMask groundLayer;
 
 
     // Use this for initialization
     void Start()
     {
+        playerAnimation = GetComponent<Animator>();
         PlayerRB = gameObject.GetComponent<Rigidbody2D>();
         PlayerDirection = Direction.RIGHT;
+        PlayerStat = PlayerStatus.ALIVE;
 
         CanMove = true;
         AttackOnCooldown = false;
@@ -52,6 +65,9 @@ public class Player_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerGrounded = Physics2D.OverlapPoint(transform.GetChild(0).position, groundLayer);
+        playerAnimation.SetBool("isGrounded", playerGrounded);
+
         if (KnockBackCount <= 0)
         {
             if (CanMove)
@@ -66,6 +82,11 @@ public class Player_Controller : MonoBehaviour
         {
             KnockBackCount -= Time.deltaTime;
         }
+        if (PlayerStat.Equals(PlayerStatus.DEAD)) {
+            Debug.Log("Dead");
+            GameObject.Find("Game Manager").GetComponent<Game_Manager>().CurrentGameStatus = GameStatus.DEATH;
+        }
+
     }
 
     void PlayerMove()
@@ -74,7 +95,24 @@ public class Player_Controller : MonoBehaviour
         moveX = Input.GetAxis("Horizontal");
         moveY = Input.GetAxis("Vertical");
 
+       
+
         PlayerRB.drag = 1f;
+
+        PickUp = false;
+
+
+        if (MoveX == 0) {
+            playerAnimation.SetBool("isMoving", false);
+        }
+        else if (MoveX > 0)
+        {
+            playerAnimation.SetBool("isMoving", true);
+        }
+        else if (MoveX < 0)
+        {
+            playerAnimation.SetBool("isMoving", true);
+        }
 
         if (moveY == 0)
         {
@@ -86,6 +124,12 @@ public class Player_Controller : MonoBehaviour
             PlayerRB.velocity = new Vector2(moveX * (playerSpeed / 2), PlayerRB.velocity.y);
 
         }
+        else if (moveY < 0)
+        {
+            PickUp = true;
+
+        }
+        
 
         //Animations
 
@@ -111,7 +155,6 @@ public class Player_Controller : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("Attacking");
 
 
             ContactFilter2D colFilter = new ContactFilter2D();
@@ -127,8 +170,8 @@ public class Player_Controller : MonoBehaviour
                     if (r.name.Equals("Enemy_Hit_Box"))
                     {
                         r.gameObject.GetComponentInParent<Enemy_Controller>().EnemyState = EnemyState.DEATH;
+                        Debug.Log(r.name);
                     }
-                    Debug.Log(r.name);
                 }
 
             }
@@ -288,6 +331,27 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
+
+    public int PlayerID
+    {
+        get { return playerID; }
+        set { playerID = value; }
+    }
+
+    public GameObject GameManager
+    {
+        get { return gameManager; }
+        set
+        {
+            gameManager = value;
+
+            if (value.GetComponent<Spawner_Manager>() != null)
+                gameManagerScript = value.GetComponent<Game_Manager>();
+            else
+                Debug.LogError("Game Manager does not have (Game_Manager) script attached to it");
+        }
+    }
+
     public Rigidbody2D PlayerRB
     {
         get { return playerRB; }
@@ -407,5 +471,31 @@ public class Player_Controller : MonoBehaviour
     {
         get { return lanceHitBox; }
         set { lanceHitBox = value; }
+    }
+
+    public bool PickUp
+    {
+        get
+        {
+            return pickUp;
+        }
+
+        set
+        {
+            pickUp = value;
+        }
+    }
+
+    public PlayerStatus PlayerStat
+    {
+        get
+        {
+            return playerStat;
+        }
+
+        set
+        {
+            playerStat = value;
+        }
     }
 }

@@ -24,9 +24,9 @@ TagManager:
   - Hitbox
   - Waypoint
   - GroundLayer
-  - 
-  - 
-  - 
+  - Layer 1
+  - Layer 2
+  - Layer 3
   - 
   - 
   - 
@@ -60,4 +60,7 @@ TagManager:
     locked: 0
   - name: Interactable Object
     uniqueID: 3414349281
+    locked: 0
+  - name: Menu
+    uniqueID: 1856380795
     locked: 0

@@ -14,11 +14,14 @@ public class Enemy_Controller : MonoBehaviour
     private EnemyMovementType enemyMovementType;
     private EnemyMovementTypeVertical enemyMovementTypeVertical;
 
+    public GameObject ItemDrop;
+
     private Rigidbody2D enemyRB;
     public int enemyID;
     public Direction enemyDirection;
-    private bool enemyGrounded;
+    public bool enemyGrounded;
     public LayerMask groundLayer;
+    private Animator enemyAnimation;
 
     private float moveX = 0;
     private float moveY = 0;
@@ -34,6 +37,8 @@ public class Enemy_Controller : MonoBehaviour
     public float knockBackForce = 2f;
     private CollideDirection knockBackDirection;
     private bool isKnockBack;
+
+    public Collider2D lanceHitBox;
 
     System.Random ran = new System.Random();
 
@@ -60,7 +65,7 @@ public class Enemy_Controller : MonoBehaviour
             Debug.LogError("Enemy Gameobject does not have Rigidbody attached to it");
 
         float randomNum = (float)GetRandomNumber(6, 12);
-        horizontalSpeedMax = randomNum;
+        horizontalSpeedMax = randomNum*2;
         EnemyGrounded = false;
 
         int randomNumDirection = ran.Next(0, 1);
@@ -77,12 +82,26 @@ public class Enemy_Controller : MonoBehaviour
         EnemyState = EnemyState.TRAVELING;
     }
 
+    private void Update()
+    {
+        
+        EnemyGrounded = Physics2D.OverlapPoint(transform.GetChild(0).position, groundLayer);
+        enemyAnimation.SetBool("Grounded", EnemyGrounded);
+        Debug.Log(EnemyGrounded);
+        
+
+
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        EnemyGrounded = Physics2D.OverlapPoint(transform.GetChild(0).position, groundLayer);
-        checkColliderCollision();
+        
 
+
+        checkColliderCollision();
+        if (!enemyState.Equals(EnemyState.DEATH))
+        Attack();
 
         switch (enemyState)
         {
@@ -98,8 +117,30 @@ public class Enemy_Controller : MonoBehaviour
 
             //State when a enemy is dead
             case EnemyState.DEATH:
+                Instantiate(ItemDrop, this.transform.position, Quaternion.identity);
                 Destroy(this.gameObject);
                 break;
+
+        }
+    }
+
+    public void Attack() {
+        ContactFilter2D colFilter = new ContactFilter2D();
+        colFilter.SetLayerMask(LayerMask.GetMask("Hitbox"));
+        Collider2D[] result = new Collider2D[10];
+
+        int count = Physics2D.OverlapCollider(lanceHitBox, colFilter, result);
+
+        foreach (Collider2D r in result)
+        {
+            if (r != null)
+            {
+                if (r.name.Equals("Player_Hit_Box"))
+                {
+                    r.gameObject.GetComponentInParent<Player_Controller>().PlayerStat = PlayerStatus.DEAD;
+                    Debug.Log(r.name);
+                }
+            }
 
         }
     }
@@ -152,7 +193,7 @@ public class Enemy_Controller : MonoBehaviour
             movementActionCountdown -= Time.deltaTime;
 
             if (HorizontalSpeed <= HorizontalSpeedMax)
-                HorizontalSpeed += 1 * Time.deltaTime;
+                HorizontalSpeed += 1 * Time.deltaTime *2;
 
             if (VerticalSpeed <= VerticalSpeedMax && adjustVertical == true)
                 VerticalSpeed += 3 * Time.deltaTime;
