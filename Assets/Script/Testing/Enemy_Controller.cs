@@ -16,7 +16,7 @@ public class Enemy_Controller : MonoBehaviour
 
     private Rigidbody2D enemyRB;
     public int enemyID;
-    private Direction enemyDirection;
+    public Direction enemyDirection;
     private bool enemyGrounded;
     public LayerMask groundLayer;
 
@@ -59,7 +59,7 @@ public class Enemy_Controller : MonoBehaviour
         else
             Debug.LogError("Enemy Gameobject does not have Rigidbody attached to it");
 
-        float randomNum = (float)GetRandomNumber(3, 8);
+        float randomNum = (float)GetRandomNumber(6, 12);
         horizontalSpeedMax = randomNum;
         EnemyGrounded = false;
 
@@ -266,12 +266,12 @@ public class Enemy_Controller : MonoBehaviour
         {
 
             case Direction.LEFT:
-                localScale.x = -1;
+                localScale.x = Mathf.Abs(localScale.x) * -1;
                 transform.localScale = localScale;
                 MoveX = -1;
                 break;
             case Direction.RIGHT:
-                localScale.x = 1;
+                localScale.x = Mathf.Abs(localScale.x);
                 transform.localScale = localScale;
                 MoveX = 1;
                 break;

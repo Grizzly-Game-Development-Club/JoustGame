@@ -85,6 +85,7 @@ public class Spawner_Manager : MonoBehaviour {
     {
         for (int counter = 0; counter <= spawnPoints.Length-1; counter++)
         {
+            Debug.Log(waves[0].enemy.name);
             spawnPoints[counter].GetComponent<Enemy_Spawner>().SpawnerID = counter;
             spawnPoints[counter].GetComponent<Enemy_Spawner>().Enemy = waves[0].enemy;
             spawnPoints[counter].GetComponent<Enemy_Spawner>().SpawnerManager = this.gameObject;

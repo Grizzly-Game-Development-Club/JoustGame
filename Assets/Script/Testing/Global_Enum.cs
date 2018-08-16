@@ -8,6 +8,8 @@ namespace Global_Enum {
     public enum CollideDirection { UP, DOWN, LEFT, RIGHT };
     public enum EnemyState { SPAWNED, TRAVELING, DEATH};
     public enum SpawnManagerState { SPAWNING, WAITING, COUNTING };
+    public enum SpawnPointStatus { AVAILABLE, UNAVAILABLE };
+    public enum Action {Attack, Waiting,  }
 
     //Enemy Movement
     public enum EnemyMovementType{SAILING, KNOCKBACK, TOPEDGE, BOTTOMEDGE};

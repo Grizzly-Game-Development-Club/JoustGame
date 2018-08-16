@@ -10,7 +10,7 @@ public class Player_Controller : MonoBehaviour
     public int playerSpeed = 8;
 
     private bool isGrounded = true;
-    private Direction playerDirection;
+    public Direction playerDirection;
     public float jumpVelocity = 10f;
     public float knockBackForce = 3f;
     public float knockBackDuration = .5f;
@@ -91,15 +91,15 @@ public class Player_Controller : MonoBehaviour
 
         Vector2 localScale = this.transform.localScale;
         //Player Directions
-        if (moveX < 0.0f)
+        if (moveX < 0.0f && PlayerDirection.Equals(Direction.RIGHT))
         {
-            localScale.x = -1;
+            localScale.x *= -1;
             transform.localScale = localScale;
             playerDirection = Direction.LEFT;
         }
-        else if (moveX > 0.0f)
+        else if (moveX > 0.0f && PlayerDirection.Equals(Direction.LEFT))
         {
-            localScale.x = 1;
+            localScale.x *= -1;
             transform.localScale = localScale;
             playerDirection = Direction.RIGHT;
         }
@@ -251,14 +251,14 @@ public class Player_Controller : MonoBehaviour
                 //Left
                 KnockBackCount = KnockBackDuation;
                 AttackDurationCountdown = 0;
-                StartCoroutine("PlayerKnockBack", new Vector2(-KnockBackForce * 1.5f, PlayerRB.velocity.y * KnockBackForce));
+                StartCoroutine("PlayerKnockBack", new Vector2(-KnockBackForce * 1.5f, PlayerRB.velocity.y));
             }
             else if (hitPos.normal.x > 0)
             {
                 //Right
                 KnockBackCount = KnockBackDuation;
                 AttackDurationCountdown = 0;
-                StartCoroutine("PlayerKnockBack", new Vector2(KnockBackForce * 1.5f, PlayerRB.velocity.y * KnockBackForce));
+                StartCoroutine("PlayerKnockBack", new Vector2(KnockBackForce * 1.5f, PlayerRB.velocity.y));
             }
 
         }
