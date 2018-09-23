@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Global_Enum;
 
 public class Enemy_Spawner : MonoBehaviour {
 
-    enum SpawnPointStatus { AVAILABLE, UNAVAILABLE };
+    
 
     private int spawnerID;
     private GameObject enemy;

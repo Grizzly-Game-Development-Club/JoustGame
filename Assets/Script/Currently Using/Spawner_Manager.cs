@@ -1,17 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Global_Enum;
 
 public class Spawner_Manager : MonoBehaviour {
 
-
-    /* Spawning - Currently in the process of spawning a wave
-     * Waiting - Spawning is put on hold
-     * Counting - Counting time between wave
-     */
-    public enum SpawnManagerState { SPAWNING, WAITING, COUNTING };
-
-    
     //Wave Class
     [System.Serializable]
     public class wave
@@ -32,6 +25,7 @@ public class Spawner_Manager : MonoBehaviour {
     private int enemyIDAssigner = 0;
     public List<int> enemyAliveList;
     private float searchCountDown = 1f;
+    public int maxEnemyAllowed;
 
     public float timeBetweenWaves = 5f;
     public float waveCountDown;
@@ -50,12 +44,15 @@ public class Spawner_Manager : MonoBehaviour {
         createSpawnPoints();
 
         waveCountDown = timeBetweenWaves;
-
+        InvokeRepeating("IncreaseMax", 10, 10);
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
+
+        
+
         if (waveCountDown <= 0)
         {
             if (state != SpawnManagerState.SPAWNING)
@@ -88,10 +85,15 @@ public class Spawner_Manager : MonoBehaviour {
 
     }
 
+    void IncreaseMax() {
+        maxEnemyAllowed += 7;
+    }
+
     void createSpawnPoints()
     {
         for (int counter = 0; counter <= spawnPoints.Length-1; counter++)
         {
+            Debug.Log(waves[0].enemy.name);
             spawnPoints[counter].GetComponent<Enemy_Spawner>().SpawnerID = counter;
             spawnPoints[counter].GetComponent<Enemy_Spawner>().Enemy = waves[0].enemy;
             spawnPoints[counter].GetComponent<Enemy_Spawner>().SpawnerManager = this.gameObject;
@@ -106,7 +108,7 @@ public class Spawner_Manager : MonoBehaviour {
 
         if(_wave.count != 0){
             //Finds a random spawner that is not occupied
-            if (availableSpawnPoints.Count != 0) {
+            if (availableSpawnPoints.Count != 0 || enemyAliveList.Count >= maxEnemyAllowed) {
                 int randomSpawnerNumber = ran.Next(0, availableSpawnPoints.Count-1);
                 int randomSpawnID = availableSpawnPoints[randomSpawnerNumber];
 
@@ -133,13 +135,6 @@ public class Spawner_Manager : MonoBehaviour {
 
         state = SpawnManagerState.COUNTING;
         waveCountDown = timeBetweenWaves;
-        waves.RemoveAt(0);
-        
-        if (waves.Count == 0)
-        {
-            Debug.Log("All waves Complete");
-        }       
- 
     }
     
 
