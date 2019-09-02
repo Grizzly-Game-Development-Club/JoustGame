@@ -98,7 +98,7 @@ public class SpawnManager : MonoBehaviour
 
     private void AddSpawner(EventParam obj)
     {
-        Ev
+        
         throw new NotImplementedException();
     }
 
