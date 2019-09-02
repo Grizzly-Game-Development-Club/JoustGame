@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
-using TMPro;
 
 public class Player_Score : MonoBehaviour
 {
 
-    TextMeshProUGUI textmeshPro;  
+    public Text text;  
 
     public int score;
 
@@ -20,13 +19,12 @@ public class Player_Score : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        textmeshPro = this.GetComponent<TextMeshProUGUI>();
         Score = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        textmeshPro.SetText(string.Format("{000000}", Score));
+        text.text = Score.ToString();
     }
 }

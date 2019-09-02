@@ -40,6 +40,12 @@ public class Game_Manager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseUI.SetActive(true);
+            Time.timeScale = 0;
+        }
+
         UpdatePlayerScore();
         
 

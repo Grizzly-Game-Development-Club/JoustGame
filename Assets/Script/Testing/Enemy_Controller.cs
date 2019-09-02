@@ -67,6 +67,7 @@ public class Enemy_Controller : MonoBehaviour
         float randomNum = (float)GetRandomNumber(6, 12);
         horizontalSpeedMax = randomNum*2;
         EnemyGrounded = false;
+        enemyAnimation = GetComponent<Animator>();
 
         int randomNumDirection = ran.Next(0, 1);
         switch (randomNumDirection) {
