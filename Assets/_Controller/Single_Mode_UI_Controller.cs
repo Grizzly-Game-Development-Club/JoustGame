@@ -89,7 +89,7 @@ public class Single_Mode_UI_Controller : MonoBehaviour
 
     private void StartCountdown(EventParam obj)
     {
-        Start
+        
     }
 
     //When the Level is loaded, set up the wave num, and duration
@@ -131,8 +131,10 @@ public class Single_Mode_UI_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        TimeDurationText.SetText(String.Format("Time: {0}:{1}", m_TimeLeft[0], m_TimeLeft[1]));
+        int timeLeft = SpawnManager.CurrentWave.TimeDuration;
+        int minutes = timeLeft / 60;
+        int seconds = timeLeft % 60;
+        TimeDurationText.SetText(String.Format("Time: {0}:{1}", minutes, seconds));
         WaveText.SetText(String.Format("Wave: {0}/{1}", m_Wave[0], m_Wave[1]));   
     }
 
@@ -140,31 +142,6 @@ public class Single_Mode_UI_Controller : MonoBehaviour
     {
 
 
-    }
-
-    IEnumerator CountDownTime()
-    {
-        while (true)
-        {
-            int minute = m_TimeLeft[0];
-            int second = m_TimeLeft[1];
-
-            if (minute <= 0 && second <= 0)
-            {
-                EventManager.TriggerEvent(E_EventName.Game_Over);
-            }
-            if (second <= 0)
-            {
-                minute--;
-                second = 60;
-            }
-            
-            yield return new WaitForSeconds(1);
-            second--;
-
-            m_TimeLeft[0] = minute;
-            m_TimeLeft[1] = second;
-        }
     }
 
 }

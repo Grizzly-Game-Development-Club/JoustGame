@@ -6,7 +6,8 @@ using UnityEngine;
 public enum E_EventName
 {
     Pause_Game, Resume_Game, Game_Over,
-    Start_Single_Mode, Set_Level, Start_Wave
+    Set_Level, Start_Level, Start_Spawn, Stop_Spawn, Wave_Complete,
+    Enemy_Spawned, Add_Spawner, Spawner_Available, Spawner_Unavailable
 };
 
 public class EventManager : MonoBehaviour
