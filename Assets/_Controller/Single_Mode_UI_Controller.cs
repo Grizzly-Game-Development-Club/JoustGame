@@ -113,7 +113,7 @@ public class Single_Mode_UI_Controller : MonoBehaviour
         EventManager.StartListening(E_EventName.Resume_Game, ToggleCountdown);
         EventManager.StartListening(E_EventName.Pause_Game, ToggleCountdown);
 
-        EventManager.StartListening(E_EventName.Start_Spawn, ToggleCountdown);
+        EventManager.StartListening(E_EventName.Spawner_Started, ToggleCountdown);
         EventManager.StartListening(E_EventName.Wave_Complete, ToggleCountdown);
         EventManager.StartListening(E_EventName.Wave_Setup, SetWaveValue);
     }

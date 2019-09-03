@@ -58,7 +58,7 @@ public class Spawner : MonoBehaviour
 
         //Trigger event enemy spawn and pass in enemy as reference
         Dictionary<E_ValueIdentifer, object> eventObject = new Dictionary<E_ValueIdentifer, object>();
-        eventObject.Add(E_ValueIdentifer.Spawned_Enemy_GameObject, enemyReference);
+        eventObject.Add(E_ValueIdentifer.Enemy_GameObject, enemyReference);
         EventManager.TriggerEvent(E_EventName.Enemy_Spawned, eventObject);
     }
 

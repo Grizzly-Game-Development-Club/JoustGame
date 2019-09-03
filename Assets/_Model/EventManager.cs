@@ -6,8 +6,8 @@ using UnityEngine;
 public enum E_EventName
 {
     Pause_Game, Resume_Game, Game_Over,
-    Start_Level, Set_Initial, Set_Wave_Value, Start_Spawn, Stop_Spawn, Wave_Complete, Wave_Setup, End_Level,
-    Enemy_Spawned, Add_Spawner, Spawner_Available, Spawner_Unavailable
+    Start_Level, Set_Initial, Set_Wave_Value, Spawner_Started, Spawner_Stopped, Wave_Complete, Wave_Setup, End_Level,
+    Enemy_Spawned, Enemy_Death, Add_Spawner, Spawner_Available, Spawner_Unavailable
 };
 
 public enum E_ValueIdentifer
@@ -16,7 +16,7 @@ public enum E_ValueIdentifer
     Countdown_Toggle_Bool,
     Time_Left_Int,
     Spawner_GameObject,
-    Spawned_Enemy_GameObject
+    Enemy_GameObject
 }
 
 public class EventManager : MonoBehaviour

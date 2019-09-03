@@ -12,12 +12,10 @@ public class SpawnManager : MonoBehaviour
     private List<GameObject> m_AvailableSpawnPoints = new List<GameObject>();
     private List<GameObject> m_EnemyAlive = new List<GameObject>();
     private List<SpawnWave> m_SpawnWaveList = new List<SpawnWave>();
-
-    private static SpawnWave m_CurrentWave;
     #endregion
 
     #region Getter & Setter
-    public static List<GameObject> SpawnPoints
+    public List<GameObject> SpawnPoints
     {
         get
         {
@@ -29,7 +27,7 @@ public class SpawnManager : MonoBehaviour
             m_SpawnPoints = value;
         }
     }
-    public static List<GameObject> AvailableSpawnPoints
+    public List<GameObject> AvailableSpawnPoints
     {
         get
         {
@@ -65,18 +63,6 @@ public class SpawnManager : MonoBehaviour
             m_SpawnWaveList = value;
         }
     }
-    public static SpawnWave CurrentWave
-    {
-        get
-        {
-            return m_CurrentWave;
-        }
-
-        set
-        {
-            m_CurrentWave = value;
-        }
-    }
     #endregion
 
     private void Awake()
@@ -91,7 +77,58 @@ public class SpawnManager : MonoBehaviour
         EventManager.StartListening(E_EventName.Spawner_Available, AddAvailableSpawner);
         EventManager.StartListening(E_EventName.Spawner_Unavailable, RemoveUnavaliableSpawner);
 
+        EventManager.StartListening(E_EventName.Enemy_Spawned, AddEnemy);
+        EventManager.StartListening(E_EventName.Enemy_Death, RemoveEnemy);
+
         EventManager.StartListening(E_EventName.Start_Level, StartSpawner);
+    }
+
+    private void RemoveEnemy(EventParam obj)
+    {
+        try
+        {
+            Dictionary<E_ValueIdentifer, object> eo = obj.EventObject;
+
+            object enemyReference;
+            if (eo.TryGetValue(E_ValueIdentifer.Enemy_GameObject, out enemyReference))
+            {
+                EnemyAlive.Remove((GameObject)enemyReference);
+            }
+            else
+            {
+                EventManager.EventDebugLog("Value does not exist");
+            }
+
+            EventManager.FinishEvent(obj.EventName);
+        }
+        catch (Exception e)
+        {
+            EventManager.EventDebugLog(e.ToString());
+        }
+    }
+
+    private void AddEnemy(EventParam obj)
+    {
+        try
+        {
+            Dictionary<E_ValueIdentifer, object> eo = obj.EventObject;
+
+            object enemyReference;
+            if (eo.TryGetValue(E_ValueIdentifer.Enemy_GameObject, out enemyReference))
+            {
+                EnemyAlive.Add((GameObject)enemyReference);
+            }
+            else
+            {
+                EventManager.EventDebugLog("Value does not exist");
+            }
+
+            EventManager.FinishEvent(obj.EventName);
+        }
+        catch (Exception e)
+        {
+            EventManager.EventDebugLog(e.ToString());
+        }
     }
 
     private void RemoveUnavaliableSpawner(EventParam obj)
@@ -166,7 +203,6 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-
     private void StartSpawner(EventParam obj)
     {
         StartCoroutine("Spawner_Couroutine");
@@ -174,60 +210,49 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator Spawner_Couroutine()
     {
-        foreach (SpawnWave spawnWave in SpawnWaveList)
+        foreach (SpawnWave currentSpawnWave in SpawnWaveList)
         {
-            CurrentWave = (SpawnWave)spawnWave.Clone();
-            int[] waveInfo = { SpawnWaveList.IndexOf(spawnWave), SpawnWaveList.Count };
-            int timeLeft = spawnWave.TimeDuration;
+            //Wave Information
+            int[] waveInfo = { SpawnWaveList.IndexOf(currentSpawnWave), SpawnWaveList.Count };
+            int timeLeft = currentSpawnWave.TimeDuration;
 
+            //Pass Wave Information to the UI
+            Dictionary<E_ValueIdentifer, object> WaveValueEventObject = new Dictionary<E_ValueIdentifer, object>();
+            WaveValueEventObject.Add(E_ValueIdentifer.WaveInfo_Array_Int, waveInfo);
+            WaveValueEventObject.Add(E_ValueIdentifer.Time_Left_Int, timeLeft);
+            EventManager.TriggerEvent(E_EventName.Set_Wave_Value, WaveValueEventObject);
 
-            Dictionary<E_ValueIdentifer, object> eventObject = new Dictionary<E_ValueIdentifer, object>();
-            eventObject.Add(E_ValueIdentifer.WaveInfo_Array_Int, waveInfo);
-            eventObject.Add(E_ValueIdentifer.Time_Left_Int, timeLeft);
-            EventManager.TriggerEvent(E_EventName.Set_Wave_Value, eventObject);
+            //Pause Before Wave Spawn
+            yield return new WaitForSeconds(currentSpawnWave.PauseBeforeWave);
 
-            yield return WaitForSeconds()
+            //Pass Value to Toggle Countdown
+            Dictionary<E_ValueIdentifer, object> SpawnerStartedEventObject = new Dictionary<E_ValueIdentifer, object>();
+            SpawnerStartedEventObject.Add(E_ValueIdentifer.Countdown_Toggle_Bool, true);
+            EventManager.TriggerEvent(E_EventName.Spawner_Started, SpawnerStartedEventObject);
 
-
-        }
-
-    }
-
-
-
-    private void Update()
-    {
-
-    }
-
-    public IEnumerator Spawn()
-    {
-        SpawnWave currentWave = CurrentWave;
-        while (currentWave.EnemyCount != 0)
-        {
-
-
-            yield return new WaitForSeconds(currentWave.SpawnRate);
-        }
-    }
-
-    IEnumerator CountDownTime()
-    {
-        while (CountdownToggle)
-        {
-            int timeLeft = CurrentWave.TimeDuration;
-
-            if (timeLeft <= 0)
+            //Spawn All Enemy in Wave
+            for (int count = 0; count <= currentSpawnWave.EnemyCount; count++)
             {
-                EventManager.TriggerEvent(E_EventName.Game_Over);
+                //Select Random Spawn Point and spawn monster
+                int randomSpawnNum = UnityEngine.Random.Range(0, AvailableSpawnPoints.Count);
+                AvailableSpawnPoints[randomSpawnNum].GetComponent<Spawner>().Spawn(currentSpawnWave.EnemyPrefab);
+
+                //Wait depending on spawn rate
+                yield return new WaitForSeconds(1 * currentSpawnWave.SpawnRate);
             }
 
-            yield return new WaitForSeconds(1);
-            timeLeft--;
+            //Wait until all the enemy are dead
+            yield return new WaitUntil(() => EnemyAlive.Count == 0);
 
-            CurrentWave.TimeDuration = timeLeft;
+            //Pass Value to Toggle Countdown
+            Dictionary<E_ValueIdentifer, object> WaveCompleteEventObject = new Dictionary<E_ValueIdentifer, object>();
+            WaveCompleteEventObject.Add(E_ValueIdentifer.Countdown_Toggle_Bool, true);
+            EventManager.TriggerEvent(E_EventName.Wave_Complete, WaveCompleteEventObject);
+
         }
+
     }
+
 }
 
 [System.Serializable]
