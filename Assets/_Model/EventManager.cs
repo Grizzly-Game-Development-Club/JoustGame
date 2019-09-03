@@ -6,16 +6,17 @@ using UnityEngine;
 public enum E_EventName
 {
     Pause_Game, Resume_Game, Game_Over,
-    Set_Initial, Set_Wave_Value, Start_Spawn, Stop_Spawn, Wave_Complete, Wave_Setup,
+    Start_Level, Set_Initial, Set_Wave_Value, Start_Spawn, Stop_Spawn, Wave_Complete, Wave_Setup, End_Level,
     Enemy_Spawned, Add_Spawner, Spawner_Available, Spawner_Unavailable
 };
 
 public enum E_ValueIdentifer
 {
-    Current_Wave_Int,
-    Total_Wave_Int,
+    WaveInfo_Array_Int,
     Countdown_Toggle_Bool,
-    Time_Left_Int
+    Time_Left_Int,
+    Spawner_GameObject,
+    Spawned_Enemy_GameObject
 }
 
 public class EventManager : MonoBehaviour
@@ -146,7 +147,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public static void TriggerEvent(E_EventName eventName, Dictionary<string, object> eventObject)
+    public static void TriggerEvent(E_EventName eventName, Dictionary<E_ValueIdentifer, object> eventObject)
     {
         
         Action<EventParam> thisEvent;
@@ -169,11 +170,6 @@ public class EventManager : MonoBehaviour
         {
             Debug.Log(String.Format("Event Log: \n {0} \n", eventDebugMessage));
         }
-
-        var test = Instance.gameObject;
-        Dictionary<String, object> exampleDictionary = new Dictionary<string, object>();
-        List<string> test2 = new List<string>();
-        exampleDictionary.Add("Test", test2);
     }
 
 }
@@ -196,7 +192,7 @@ public class EventParam
     public EventParam(E_EventName m_EventName)
     {
         this.m_EventName = m_EventName;
-        this.EventObject = new Dictionary<string, object>();
+        this.EventObject = new Dictionary<E_ValueIdentifer, object>();
     }
 
     public EventParam(E_EventName m_EventName, Dictionary<E_ValueIdentifer, object> m_EventObject)

@@ -8,11 +8,12 @@ public class SpawnManager : MonoBehaviour
     public static SpawnManager m_SpawnManager;
 
     #region Variable
-    private List<GameObject> m_SpawnPoints;
-    private List<GameObject> m_AvailableSpawnPoints;
-    private List<SpawnWave> m_SpawnWaveList;
+    private List<GameObject> m_SpawnPoints = new List<GameObject>();
+    private List<GameObject> m_AvailableSpawnPoints = new List<GameObject>();
+    private List<GameObject> m_EnemyAlive = new List<GameObject>();
+    private List<SpawnWave> m_SpawnWaveList = new List<SpawnWave>();
+
     private static SpawnWave m_CurrentWave;
-    private bool m_CountdownToggle;
     #endregion
 
     #region Getter & Setter
@@ -40,6 +41,18 @@ public class SpawnManager : MonoBehaviour
             m_AvailableSpawnPoints = value;
         }
     }
+    public List<GameObject> EnemyAlive
+    {
+        get
+        {
+            return m_EnemyAlive;
+        }
+
+        set
+        {
+            m_EnemyAlive = value;
+        }
+    }
     public List<SpawnWave> SpawnWaveList
     {
         get
@@ -64,66 +77,127 @@ public class SpawnManager : MonoBehaviour
             m_CurrentWave = value;
         }
     }
-    public bool CountdownToggle
-    {
-        get
-        {
-            return m_CountdownToggle;
-        }
-
-        set
-        {
-            m_CountdownToggle = value;
-        }
-    }
-
-    
     #endregion
-
 
     private void Awake()
     {
         SpawnPoints = new List<GameObject>();
         SpawnWaveList = new List<SpawnWave>();
-        CountdownToggle = false;
     }
 
     private void OnEnable()
     {
-        EventManager.StartListening(E_EventName.Spawner_Available, AddSpawner);
-        EventManager.StartListening(E_EventName.Spawner_Unavailable, RemoveSpawner);
-        EventManager.StartListening(E_EventName.Set_Level, SetValue);
+        EventManager.StartListening(E_EventName.Add_Spawner, AddSpawner);
+        EventManager.StartListening(E_EventName.Spawner_Available, AddAvailableSpawner);
+        EventManager.StartListening(E_EventName.Spawner_Unavailable, RemoveUnavaliableSpawner);
+
         EventManager.StartListening(E_EventName.Start_Level, StartSpawner);
+    }
+
+    private void RemoveUnavaliableSpawner(EventParam obj)
+    {
+        try
+        {
+            Dictionary<E_ValueIdentifer, object> eo = obj.EventObject;
+
+            object spawnerReference;
+            if (eo.TryGetValue(E_ValueIdentifer.Spawner_GameObject, out spawnerReference))
+            {
+                SpawnPoints.Add((GameObject)spawnerReference);
+            }
+            else
+            {
+                EventManager.EventDebugLog("Value does not exist");
+            }
+
+            EventManager.FinishEvent(obj.EventName);
+        }
+        catch (Exception e)
+        {
+            EventManager.EventDebugLog(e.ToString());
+        }
+    }
+
+    private void AddAvailableSpawner(EventParam obj)
+    {
+        try
+        {
+            Dictionary<E_ValueIdentifer, object> eo = obj.EventObject;
+
+            object spawnerReference;
+            if (eo.TryGetValue(E_ValueIdentifer.Spawner_GameObject, out spawnerReference))
+            {
+                SpawnPoints.Add((GameObject)spawnerReference);
+            }
+            else
+            {
+                EventManager.EventDebugLog("Value does not exist");
+            }
+
+            EventManager.FinishEvent(obj.EventName);
+        }
+        catch (Exception e)
+        {
+            EventManager.EventDebugLog(e.ToString());
+        }
     }
 
     private void AddSpawner(EventParam obj)
     {
-        
-        throw new NotImplementedException();
+        try
+        {
+            Dictionary<E_ValueIdentifer, object> eo = obj.EventObject;
+
+            object spawnerReference;
+            if (eo.TryGetValue(E_ValueIdentifer.Spawner_GameObject, out spawnerReference))
+            {
+                SpawnPoints.Add((GameObject)spawnerReference);
+            }
+            else
+            {
+                EventManager.EventDebugLog("Value does not exist");
+            }
+
+            EventManager.FinishEvent(obj.EventName);
+        }
+        catch (Exception e)
+        {
+            EventManager.EventDebugLog(e.ToString());
+        }
     }
 
-    private void RemoveSpawner(EventParam obj)
-    {
-        throw new NotImplementedException();
-    }
-
-    private void SetValue(EventParam obj)
-    {
-        CurrentWave = (SpawnWave)SpawnWaveList[0].Clone();
-    }
 
     private void StartSpawner(EventParam obj)
     {
-        StopAllCoroutines();
-        StartCoroutine("CountDownTime");
-        StartCoroutine("Spawn");
+        StartCoroutine("Spawner_Couroutine");
     }
 
-    
+    IEnumerator Spawner_Couroutine()
+    {
+        foreach (SpawnWave spawnWave in SpawnWaveList)
+        {
+            CurrentWave = (SpawnWave)spawnWave.Clone();
+            int[] waveInfo = { SpawnWaveList.IndexOf(spawnWave), SpawnWaveList.Count };
+            int timeLeft = spawnWave.TimeDuration;
+
+
+            Dictionary<E_ValueIdentifer, object> eventObject = new Dictionary<E_ValueIdentifer, object>();
+            eventObject.Add(E_ValueIdentifer.WaveInfo_Array_Int, waveInfo);
+            eventObject.Add(E_ValueIdentifer.Time_Left_Int, timeLeft);
+            EventManager.TriggerEvent(E_EventName.Set_Wave_Value, eventObject);
+
+            yield return WaitForSeconds()
+
+
+        }
+
+    }
+
+
 
     private void Update()
     {
-        
+
     }
 
     public IEnumerator Spawn()
@@ -154,6 +228,7 @@ public class SpawnManager : MonoBehaviour
             CurrentWave.TimeDuration = timeLeft;
         }
     }
+}
 
 [System.Serializable]
 public class SpawnWave : ICloneable
@@ -164,6 +239,7 @@ public class SpawnWave : ICloneable
     private int m_EnemyCount;
     private float m_SpawnRate;
     private int m_TimeDuration;
+    private float m_PauseBeforeWave;
     #endregion
 
     #region Getter & Setter
@@ -227,6 +303,18 @@ public class SpawnWave : ICloneable
             m_TimeDuration = value;
         }
     }
+    public float PauseBeforeWave
+    {
+        get
+        {
+            return m_PauseBeforeWave;
+        }
+
+        set
+        {
+            m_PauseBeforeWave = value;
+        }
+    }
 
     public object Clone()
     {
@@ -234,4 +322,4 @@ public class SpawnWave : ICloneable
     }
     #endregion
 }
-}
+

@@ -118,27 +118,42 @@ public class Single_Mode_UI_Controller : MonoBehaviour
         EventManager.StartListening(E_EventName.Wave_Setup, SetWaveValue);
     }
 
+    public void OnDisable()
+    {
+        EventManager.StopListening(E_EventName.Set_Initial, SetWaveValue);
+        EventManager.StopListening(E_EventName.Set_Initial, StartCountdown);
+
+        EventManager.StopListening(E_EventName.Resume_Game, ToggleCountdown);
+        EventManager.StopListening(E_EventName.Pause_Game, ToggleCountdown);
+
+        EventManager.StopListening(E_EventName.Start_Spawn, ToggleCountdown);
+        EventManager.StopListening(E_EventName.Wave_Complete, ToggleCountdown);
+        EventManager.StopListening(E_EventName.Wave_Setup, SetWaveValue);
+    }
+
+    //Start the Coroutine to countdown
     private void StartCountdown(EventParam obj)
     {
         StopAllCoroutines();
-        StartCoroutine("Countdown");
+        StartCoroutine("Countdown_Coroutine");
     }
 
+    //Set Wave Value and Time Left then the update the UI with it
     private void SetWaveValue(EventParam obj)
     {
         try
         {
             Dictionary<E_ValueIdentifer, object> eo = obj.EventObject;
 
-            object currentWaveValue;
-            object totalWaveValue;
+            object waveInfoValue;
             object timeLeftValue;
-            if (eo.TryGetValue(E_ValueIdentifer.Current_Wave_Int, out currentWaveValue) &&
-                eo.TryGetValue(E_ValueIdentifer.Total_Wave_Int, out totalWaveValue) && 
+            if (eo.TryGetValue(E_ValueIdentifer.WaveInfo_Array_Int, out waveInfoValue) &&
                 eo.TryGetValue(E_ValueIdentifer.Time_Left_Int, out timeLeftValue))
             {
-                Wave[0] = (int)currentWaveValue;
-                Wave[1] = (int)totalWaveValue;
+                int[] waveInfo = (int[])waveInfoValue;
+
+                Wave[0] = waveInfo[0];
+                Wave[1] = waveInfo[1];
                 TimeLeft = (int)timeLeftValue;
                 SetUIText();
             }
@@ -155,6 +170,7 @@ public class Single_Mode_UI_Controller : MonoBehaviour
         }
     }
 
+    //Toggle the countdown off or on depending on the game state
     private void ToggleCountdown(EventParam obj)
     {
         try
@@ -179,6 +195,7 @@ public class Single_Mode_UI_Controller : MonoBehaviour
         }
     }
 
+    //Set the UI Text
     void SetUIText()
     {
         int minutes = TimeLeft / 60;
@@ -187,7 +204,8 @@ public class Single_Mode_UI_Controller : MonoBehaviour
         WaveText.SetText(String.Format("Wave: {0}/{1}", Wave[0], Wave[1]));
     }
 
-    IEnumerator Countdown()
+    //Count down the time duration of wave if toggled on
+    IEnumerator Countdown_Coroutine()
     {
         while (CountdownToggle)
         {

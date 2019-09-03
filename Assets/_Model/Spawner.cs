@@ -37,11 +37,13 @@ public class Spawner : MonoBehaviour
     //Add Spawner Reference to spawn manager
     private void AddToSpawnManager(EventParam obj)
     {
-        EventObject eo = new EventObject();
-        eo.TypeGameObject = new List<GameObject>() { this.gameObject };
+        //Create Event Object and added reference to it
+        Dictionary<E_ValueIdentifer, object> eventObject = new Dictionary<E_ValueIdentifer, object>();
+        eventObject.Add(E_ValueIdentifer.Spawner_GameObject, this.gameObject);
 
-        EventManager.TriggerEvent(E_EventName.Add_Spawner, eo);
-        EventManager.TriggerEvent(E_EventName.Spawner_Available, eo);
+        //Trigger event passing in spawner reference
+        EventManager.TriggerEvent(E_EventName.Add_Spawner, eventObject);
+        EventManager.TriggerEvent(E_EventName.Spawner_Available, eventObject);
     }
 
     //Spawn Enemy
@@ -55,9 +57,9 @@ public class Spawner : MonoBehaviour
         GameObject enemyReference = Instantiate(enemyPrefab, adjustedSpawnPoint, Quaternion.identity) as GameObject;
 
         //Trigger event enemy spawn and pass in enemy as reference
-        EventObject eo = new EventObject();
-        eo.TypeGameObject = new List<GameObject>() {enemyReference};
-        EventManager.TriggerEvent(E_EventName.Enemy_Spawned, eo);
+        Dictionary<E_ValueIdentifer, object> eventObject = new Dictionary<E_ValueIdentifer, object>();
+        eventObject.Add(E_ValueIdentifer.Spawned_Enemy_GameObject, enemyReference);
+        EventManager.TriggerEvent(E_EventName.Enemy_Spawned, eventObject);
     }
 
     //If an object is blocking the spawnpoint
@@ -67,9 +69,9 @@ public class Spawner : MonoBehaviour
         IsAvailable = false;
 
         //Send out signal that this spawner is unavailable
-        EventObject eo = new EventObject();
-        eo.TypeGameObject = new List<GameObject>() { this.gameObject };
-        EventManager.TriggerEvent(E_EventName.Spawner_Unavailable, eo);
+        Dictionary<E_ValueIdentifer, object> eventObject = new Dictionary<E_ValueIdentifer, object>();
+        eventObject.Add(E_ValueIdentifer.Spawner_GameObject, this.gameObject);
+        EventManager.TriggerEvent(E_EventName.Spawner_Unavailable, eventObject);
     }
 
     //If the object blocking the spawnpoint left
@@ -79,8 +81,8 @@ public class Spawner : MonoBehaviour
         IsAvailable = true;
 
         //Send out signal that this spawner is unavailable
-        EventObject eo = new EventObject();
-        eo.TypeGameObject = new List<GameObject>() { this.gameObject };
-        EventManager.TriggerEvent(E_EventName.Spawner_Available, eo);
+        Dictionary<E_ValueIdentifer, object> eventObject = new Dictionary<E_ValueIdentifer, object>();
+        eventObject.Add(E_ValueIdentifer.Spawner_GameObject, this.gameObject);
+        EventManager.TriggerEvent(E_EventName.Spawner_Available, eventObject);
     }
 }
