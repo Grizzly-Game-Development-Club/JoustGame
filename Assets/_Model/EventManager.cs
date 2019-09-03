@@ -6,16 +6,22 @@ using UnityEngine;
 public enum E_EventName
 {
     Pause_Game, Resume_Game, Game_Over,
-    Set_Level, Start_Level, Start_Spawn, Stop_Spawn, Wave_Complete,
+    Set_Initial, Set_Wave_Value, Start_Spawn, Stop_Spawn, Wave_Complete, Wave_Setup,
     Enemy_Spawned, Add_Spawner, Spawner_Available, Spawner_Unavailable
 };
+
+public enum E_ValueIdentifer
+{
+    Current_Wave_Int,
+    Total_Wave_Int,
+    Countdown_Toggle_Bool,
+    Time_Left_Int
+}
 
 public class EventManager : MonoBehaviour
 {
     #region Variable
     private static EventManager m_EventManager;
-    private static EventObject m_EventObject;
-
     private Dictionary<E_EventName, Action<EventParam>> m_EventDictionary;
     private bool m_EventDebugMode;
     #endregion
@@ -96,10 +102,6 @@ public class EventManager : MonoBehaviour
         {
             m_EventDictionary = new Dictionary<E_EventName, Action<EventParam>>();
         }
-        if (m_EventObject == null)
-        {
-            m_EventObject = new EventObject();
-        }
     }
 
     public static void StartListening(E_EventName eventName, Action<EventParam> listener)
@@ -144,9 +146,9 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public static void TriggerEvent(E_EventName eventName, EventObject eventObject)
+    public static void TriggerEvent(E_EventName eventName, Dictionary<string, object> eventObject)
     {
-
+        
         Action<EventParam> thisEvent;
         if (Instance.EventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -167,115 +169,37 @@ public class EventManager : MonoBehaviour
         {
             Debug.Log(String.Format("Event Log: \n {0} \n", eventDebugMessage));
         }
+
+        var test = Instance.gameObject;
+        Dictionary<String, object> exampleDictionary = new Dictionary<string, object>();
+        List<string> test2 = new List<string>();
+        exampleDictionary.Add("Test", test2);
     }
 
 }
 
-public class EventObject
+
+public class Variable
 {
-
-    #region Variable
-    [SerializeField] private List<string> m_TypeString;
-    [SerializeField] private List<bool> m_TypeBool;
-    [SerializeField] private List<int> m_TypeInt;
-    [SerializeField] private List<float> m_TypeFloat;
-    [SerializeField] private List<Transform> m_TypeTransform;
-    [SerializeField] private List<GameObject> m_TypeGameObject;
-    #endregion
-
-    #region Getter & Setter
-    public List<string> TypeString
-    {
-        get
-        {
-            return m_TypeString;
-        }
-
-        set
-        {
-            m_TypeString = value;
-        }
-    }
-    public List<bool> TypeBool
-    {
-        get
-        {
-            return m_TypeBool;
-        }
-
-        set
-        {
-            m_TypeBool = value;
-        }
-    }
-    public List<int> TypeInt
-    {
-        get
-        {
-            return m_TypeInt;
-        }
-
-        set
-        {
-            m_TypeInt = value;
-        }
-    }
-    public List<float> TypeFloat
-    {
-        get
-        {
-            return m_TypeFloat;
-        }
-
-        set
-        {
-            m_TypeFloat = value;
-        }
-    }
-    public List<Transform> TypeTransform
-    {
-        get
-        {
-            return m_TypeTransform;
-        }
-
-        set
-        {
-            m_TypeTransform = value;
-        }
-    }
-    public List<GameObject> TypeGameObject
-    {
-        get
-        {
-            return m_TypeGameObject;
-        }
-
-        set
-        {
-            m_TypeGameObject = value;
-        }
-    }
-    #endregion
+    public object Value { get; set; }
 }
-
 
 [Serializable]
 public class EventParam
 {
     #region Variable
     private E_EventName m_EventName;
-    private EventObject m_EventObject;
+    private Dictionary<E_ValueIdentifer, object> m_EventObject;
     #endregion
 
     #region Constructor
     public EventParam(E_EventName m_EventName)
     {
         this.m_EventName = m_EventName;
-        this.EventObject = new EventObject();
+        this.EventObject = new Dictionary<string, object>();
     }
 
-    public EventParam(E_EventName m_EventName, EventObject m_EventObject)
+    public EventParam(E_EventName m_EventName, Dictionary<E_ValueIdentifer, object> m_EventObject)
     {
         this.m_EventName = m_EventName;
         this.m_EventObject = m_EventObject;

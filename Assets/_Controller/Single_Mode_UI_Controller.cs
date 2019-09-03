@@ -13,9 +13,9 @@ public class Single_Mode_UI_Controller : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_TimeDurationText;
     [SerializeField] private TextMeshProUGUI m_WaveText;
 
-
-    private int[] m_TimeLeft;
-    private int[] m_Wave;
+    private int m_TimeLeft = 0;
+    private int[] m_Wave = {0,0};
+    private bool m_CountdownToggle = false;
     #endregion
 
     #region Getter & Setter
@@ -67,81 +67,139 @@ public class Single_Mode_UI_Controller : MonoBehaviour
             m_WaveText = value;
         }
     }
-    #endregion
-
-    private void Awake()
+    public int TimeLeft
     {
-        m_TimeLeft = new int[2];
-        m_Wave = new int[2];
+        get
+        {
+            return m_TimeLeft;
+        }
+
+        set
+        {
+            m_TimeLeft = value;
+        }
     }
+    public int[] Wave
+    {
+        get
+        {
+            return m_Wave;
+        }
+
+        set
+        {
+            m_Wave = value;
+        }
+    }
+    public bool CountdownToggle
+    {
+        get
+        {
+            return m_CountdownToggle;
+        }
+
+        set
+        {
+            m_CountdownToggle = value;
+        }
+    }
+    #endregion
 
     public void OnEnable()
     {
-        EventManager.StartListening(E_EventName.Set_Level, SetLevel);
-        EventManager.StartListening(E_EventName.Set_Level, StartCountdown);
-        EventManager.StartListening(E_EventName.Pause_Game, StopCountdown);
-    }
+        EventManager.StartListening(E_EventName.Set_Initial, SetWaveValue);
+        EventManager.StartListening(E_EventName.Set_Initial, StartCountdown);
 
-    private void StopCountdown(EventParam obj)
-    {
-        throw new NotImplementedException();
+        EventManager.StartListening(E_EventName.Resume_Game, ToggleCountdown);
+        EventManager.StartListening(E_EventName.Pause_Game, ToggleCountdown);
+
+        EventManager.StartListening(E_EventName.Start_Spawn, ToggleCountdown);
+        EventManager.StartListening(E_EventName.Wave_Complete, ToggleCountdown);
+        EventManager.StartListening(E_EventName.Wave_Setup, SetWaveValue);
     }
 
     private void StartCountdown(EventParam obj)
     {
-        
+        StopAllCoroutines();
+        StartCoroutine("Countdown");
     }
 
-    //When the Level is loaded, set up the wave num, and duration
-    public void SetLevel(EventParam obj)
+    private void SetWaveValue(EventParam obj)
     {
-        E_EventName en = obj.EventName;
-        EventObject eo = obj.EventObject;
-
-        foreach (String es in eo.TypeString)
+        try
         {
-            string[] esArray = es.Split(':');
+            Dictionary<E_ValueIdentifer, object> eo = obj.EventObject;
 
-            switch (esArray[0])
+            object currentWaveValue;
+            object totalWaveValue;
+            object timeLeftValue;
+            if (eo.TryGetValue(E_ValueIdentifer.Current_Wave_Int, out currentWaveValue) &&
+                eo.TryGetValue(E_ValueIdentifer.Total_Wave_Int, out totalWaveValue) && 
+                eo.TryGetValue(E_ValueIdentifer.Time_Left_Int, out timeLeftValue))
             {
-                case "Time Left Minute":
-                    m_TimeLeft[0] = int.Parse(esArray[1]);
-                    break;
-                case "Time Left Second":
-                    m_TimeLeft[1] = int.Parse(esArray[1]);
-                    break;
-                case "Wave Current":
-                    m_Wave[0] = int.Parse(esArray[1]);
-                    break;
-                case "Wave Total":
-                    m_Wave[1] = int.Parse(esArray[1]);
-                    break;
+                Wave[0] = (int)currentWaveValue;
+                Wave[1] = (int)totalWaveValue;
+                TimeLeft = (int)timeLeftValue;
+                SetUIText();
             }
+            else
+            {
+                EventManager.EventDebugLog("Value does not exist");
+            }
+
+            EventManager.FinishEvent(obj.EventName);
         }
-
-        EventManager.FinishEvent(en);
+        catch (Exception e)
+        {
+            EventManager.EventDebugLog(e.ToString());
+        }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void ToggleCountdown(EventParam obj)
     {
-        
+        try
+        {
+            Dictionary<E_ValueIdentifer, object> eo = obj.EventObject;
+
+            object countdownToggle;
+            if (eo.TryGetValue(E_ValueIdentifer.Countdown_Toggle_Bool, out countdownToggle))
+            {
+                CountdownToggle = (bool)countdownToggle;
+            }
+            else
+            {
+                EventManager.EventDebugLog("Value does not exist");
+            }
+
+            EventManager.FinishEvent(obj.EventName);
+        }
+        catch (Exception e)
+        {
+            EventManager.EventDebugLog(e.ToString());
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void SetUIText()
     {
-        int timeLeft = SpawnManager.CurrentWave.TimeDuration;
-        int minutes = timeLeft / 60;
-        int seconds = timeLeft % 60;
+        int minutes = TimeLeft / 60;
+        int seconds = TimeLeft % 60;
         TimeDurationText.SetText(String.Format("Time: {0}:{1}", minutes, seconds));
-        WaveText.SetText(String.Format("Wave: {0}/{1}", m_Wave[0], m_Wave[1]));   
+        WaveText.SetText(String.Format("Wave: {0}/{1}", Wave[0], Wave[1]));
     }
 
-    void StartCountdown()
+    IEnumerator Countdown()
     {
+        while (CountdownToggle)
+        {
+            SetUIText();
 
-
+            if (TimeLeft == 0)
+            {
+                EventManager.TriggerEvent(E_EventName.Game_Over);
+            }
+            yield return new WaitForSeconds(1f);
+            TimeLeft--;
+        }       
     }
 
 }

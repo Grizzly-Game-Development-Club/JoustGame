@@ -27,11 +27,11 @@ public class Spawner : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.StartListening(E_EventName.Start_Level, AddToSpawnManager);
+        EventManager.StartListening(E_EventName.Set_Initial, AddToSpawnManager);
     }
     private void OnDisable()
     {
-        EventManager.StopListening(E_EventName.Start_Level, AddToSpawnManager);
+        EventManager.StopListening(E_EventName.Set_Initial, AddToSpawnManager);
     }
 
     //Add Spawner Reference to spawn manager
