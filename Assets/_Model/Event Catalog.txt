@@ -1,0 +1,109 @@
+
+Event Name: 
+	Pause_Game
+Trigger From:
+	- GameManager
+TimeFrame: 
+	- When the game get paused
+Connection: 
+	- Single_Mode_UI_Controller (Pause Countdown Timer)
+	- Pause_UI_Controller (Show Pause UI)
+	- SpawnerManager(Pause Spawner,)
+	- Any Interactable Object (Pause Movement)
+
+Event Name:
+	Resume_Game
+Trigger From:
+	- GameManager
+TimeFrame: 
+	- When the game get resume
+Connection: 
+	- Single_Mode_UI_Controller (Resume Countdown Timer)
+	- Pause_UI_Controller (Disable Pause UI)
+	- SpawnerManager(Resume Spawner,)
+	- Any Interactable Object (Resume Movement)
+
+Event Name:
+	Game_Over
+Trigger From:
+	- Player
+	- Single_Mode_UI_Controller
+TimeFrame: 
+	- When the time run out and enemy are still alive
+	- When the player dies
+Connection: 
+	- Single_Mode_UI_Controller (Stop Countdown Timer)
+	- GameOver_UI_Controller (Show GameOver UI)
+	- SpawnerManager(Stop Spawner)
+	- Any Interactable Object (Pause Movement)
+
+Event Name:
+	Enemy_Spawned
+Trigger From:
+	- Spawner
+TimeFrame: 
+	- When an enemy is spawn
+Connection: 
+	- SpawnerManager(Add Enemy to List of EnemyAlived)
+	
+Event Name:
+	Enemy_Death	
+Trigger From:
+	- EnemyController
+TimeFrame: 
+	- When an enemy died
+Connection: 	
+	- SpawnerManager(Remove enemy from alive list)
+		- Need Enemy GameObject
+		* Trigger Victory (If all enemy is dead)
+	- GameManager(Increase Score based on enemy)
+		- Need Enemy GameObject
+
+		
+Event Name:
+	Setup_Level
+Trigger From:
+	- GameManager
+TimeFrame: 
+	- When a level game scene is loaded
+Connection: 
+	- Single_Mode_UI_Controller(Request for Wave Information)
+		* Trigger Request_Info_Wave
+			- Pass in itself as reference
+	- Spawner(Add itself to the spawn manager list)
+		* Trigger Add_Spawner
+			- Pass in itself as reference
+	
+Event Name:
+	Start_Level
+Trigger From:
+	- GameManager
+TimeFrame: 
+	- After Level has been setup
+Connection: 
+	- SpawnerManager(Start spawning enemy)
+	- Single_Mode_UI_Controller(Start Wave Time Countdown)
+
+
+Set_Initial, 
+
+Set_Wave_Value, 
+
+
+Start_Spawner, 
+
+Stop_Spawner, 
+
+Wave_Complete, 
+
+Wave_Setup, 
+
+End_Level,
+
+
+
+Add_Spawner, 
+
+Spawner_Available, 
+
+Spawner_Unavailable

@@ -53,19 +53,6 @@ public class EventManager : MonoBehaviour
             m_EventManager = value;
         }
     }
-    public static EventObject EventObject
-    {
-        get
-        {
-            return m_EventObject;
-        }
-
-        set
-        {
-            m_EventObject = value;
-        }
-    }
-
     public Dictionary<E_EventName, Action<EventParam>> EventDictionary
     {
         get
@@ -215,7 +202,7 @@ public class EventParam
             m_EventName = value;
         }
     }
-    public EventObject EventObject
+    public Dictionary<E_ValueIdentifer, object> EventObject
     {
         get
         {
