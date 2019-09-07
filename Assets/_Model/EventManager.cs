@@ -5,13 +5,17 @@ using UnityEngine;
 
 public enum E_EventName
 {
-    Pause_Game, Resume_Game, Game_Over,
-    Start_Level, Set_Initial, Set_Wave_Value, Spawner_Started, Spawner_Stopped, Wave_Complete, Wave_Setup, End_Level,
-    Enemy_Spawned, Enemy_Death, Add_Spawner, Spawner_Available, Spawner_Unavailable
+    Pause_Game, Resume_Game, Game_Over, Victory,
+    Enemy_Spawned, Enemy_Death,
+    Setup_Level,
+    Request_SpawnWave_Value, Request_TotalWave_Value
 };
 
 public enum E_ValueIdentifer
 {
+    Request_SpawnWave_Value, Request_TotalWave_Value
+
+
     WaveInfo_Array_Int,
     Countdown_Toggle_Bool,
     Time_Left_Int,

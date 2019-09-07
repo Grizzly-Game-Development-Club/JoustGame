@@ -366,7 +366,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9173083444121763842}
-  - component: {fileID: 2942308272829306599}
+  - component: {fileID: 6911263486000724626}
   m_Layer: 5
   m_Name: Single Mode Game UI
   m_TagString: Untagged
@@ -394,7 +394,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1280, y: 720}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2942308272829306599
+--- !u!114 &6911263486000724626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -403,9 +403,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6997347819784941988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae829716faf158c46ad90ba5ff070260, type: 3}
+  m_Script: {fileID: 11500000, guid: 30ee128de0f118f45aa6d277fb42ed8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_UIPanel: {fileID: 0}
+  m_ScoreText: {fileID: 0}
+  m_TimeDurationText: {fileID: 0}
+  m_WaveText: {fileID: 0}
 --- !u!1 &7888718982820571330
 GameObject:
   m_ObjectHideFlags: 0

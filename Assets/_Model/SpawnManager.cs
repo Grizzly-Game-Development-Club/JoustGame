@@ -12,6 +12,7 @@ public class SpawnManager : MonoBehaviour
     private List<GameObject> m_AvailableSpawnPoints = new List<GameObject>();
     private List<GameObject> m_EnemyAlive = new List<GameObject>();
     private List<SpawnWave> m_SpawnWaveList = new List<SpawnWave>();
+    private List<String> m_WaveInfo;
     #endregion
 
     #region Getter & Setter
@@ -63,10 +64,23 @@ public class SpawnManager : MonoBehaviour
             m_SpawnWaveList = value;
         }
     }
+    public List<string> WaveInfo
+    {
+        get
+        {
+            return m_WaveInfo;
+        }
+
+        set
+        {
+            m_WaveInfo = value;
+        }
+    }
     #endregion
 
     private void Awake()
     {
+        WaveInfo = new List<string>(){m_SpawnWaveList.get};
         SpawnPoints = new List<GameObject>();
         SpawnWaveList = new List<SpawnWave>();
     }
@@ -256,7 +270,7 @@ public class SpawnManager : MonoBehaviour
 }
 
 [System.Serializable]
-public class SpawnWave : ICloneable
+public class SpawnWave
 {
     #region Variable
     private int m_WaveID;
@@ -339,11 +353,6 @@ public class SpawnWave : ICloneable
         {
             m_PauseBeforeWave = value;
         }
-    }
-
-    public object Clone()
-    {
-        return this.MemberwiseClone();
     }
     #endregion
 }

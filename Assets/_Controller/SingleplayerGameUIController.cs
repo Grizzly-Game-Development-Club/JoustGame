@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class Single_Mode_UI_Controller : MonoBehaviour
+public class SingleplayerGameUIController : MonoBehaviour, IEventValueRequest
 {
 
     #region Variable
@@ -14,7 +14,7 @@ public class Single_Mode_UI_Controller : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_WaveText;
 
     private int m_TimeLeft = 0;
-    private int[] m_Wave = {0,0};
+    private int[] m_Wave = { 0, 0 };
     private bool m_CountdownToggle = false;
     #endregion
 
@@ -107,29 +107,23 @@ public class Single_Mode_UI_Controller : MonoBehaviour
 
     public void OnEnable()
     {
-        EventManager.StartListening(E_EventName.Set_Initial, SetWaveValue);
-        EventManager.StartListening(E_EventName.Set_Initial, StartCountdown);
-
-        EventManager.StartListening(E_EventName.Resume_Game, ToggleCountdown);
-        EventManager.StartListening(E_EventName.Pause_Game, ToggleCountdown);
-
-        EventManager.StartListening(E_EventName.Spawner_Started, ToggleCountdown);
-        EventManager.StartListening(E_EventName.Wave_Complete, ToggleCountdown);
-        EventManager.StartListening(E_EventName.Wave_Setup, SetWaveValue);
+        EventManager.StartListening(E_EventName.Setup_Level, RequestWaveValue);
     }
 
     public void OnDisable()
     {
-        EventManager.StopListening(E_EventName.Set_Initial, SetWaveValue);
-        EventManager.StopListening(E_EventName.Set_Initial, StartCountdown);
 
-        EventManager.StopListening(E_EventName.Resume_Game, ToggleCountdown);
-        EventManager.StopListening(E_EventName.Pause_Game, ToggleCountdown);
-
-        //EventManager.StopListening(E_EventName.Start_Spawn, ToggleCountdown);
-        EventManager.StopListening(E_EventName.Wave_Complete, ToggleCountdown);
-        EventManager.StopListening(E_EventName.Wave_Setup, SetWaveValue);
     }
+
+    private void RequestWaveValue(EventParam obj)
+    {
+        Dictionary<E_ValueIdentifer, object> eo = obj.EventObject;
+        eo.Add(E_ValueIdentifer.Request_SpawnWave_Value, this.gameObject.GetComponent<SingleplayerGameUIController>());
+        EventManager.TriggerEvent(E_EventName.Request_SpawnWave_Value, eo);
+    }
+
+
+    
 
     //Start the Coroutine to countdown
     private void StartCountdown(EventParam obj)
@@ -217,7 +211,20 @@ public class Single_Mode_UI_Controller : MonoBehaviour
             }
             yield return new WaitForSeconds(1f);
             TimeLeft--;
-        }       
+        }
     }
 
+    public void SetEventValue(E_ValueIdentifer valueIdentifer, object obj)
+    {
+        switch (valueIdentifer)
+        {
+            case E_ValueIdentifer.Request_SpawnWave_Value:
+                SpawnWave waveValue = (SpawnWave)obj;
+                m_Wave[0] = waveValue.
+
+                break;
+
+
+        }
+    }
 }
