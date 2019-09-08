@@ -27,11 +27,11 @@ public class Spawner : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.StartListening(E_EventName.Set_Initial, AddToSpawnManager);
+        EventManager.StartListening(E_EventName.Setup_Spawner_List, AddToSpawnManager);
     }
     private void OnDisable()
     {
-        EventManager.StopListening(E_EventName.Set_Initial, AddToSpawnManager);
+        EventManager.StopListening(E_EventName.Setup_Spawner_List, AddToSpawnManager);
     }
 
     //Add Spawner Reference to spawn manager
@@ -39,11 +39,10 @@ public class Spawner : MonoBehaviour
     {
         //Create Event Object and added reference to it
         Dictionary<E_ValueIdentifer, object> eventObject = new Dictionary<E_ValueIdentifer, object>();
-        eventObject.Add(E_ValueIdentifer.Spawner_GameObject, this.gameObject);
+        eventObject.Add(E_ValueIdentifer.GameObject_Spawner, this.gameObject);
 
         //Trigger event passing in spawner reference
         EventManager.TriggerEvent(E_EventName.Add_Spawner, eventObject);
-        EventManager.TriggerEvent(E_EventName.Spawner_Available, eventObject);
     }
 
     //Spawn Enemy
@@ -58,7 +57,7 @@ public class Spawner : MonoBehaviour
 
         //Trigger event enemy spawn and pass in enemy as reference
         Dictionary<E_ValueIdentifer, object> eventObject = new Dictionary<E_ValueIdentifer, object>();
-        eventObject.Add(E_ValueIdentifer.Enemy_GameObject, enemyReference);
+        eventObject.Add(E_ValueIdentifer.GameObject_Enemy, enemyReference);
         EventManager.TriggerEvent(E_EventName.Enemy_Spawned, eventObject);
     }
 
@@ -70,7 +69,7 @@ public class Spawner : MonoBehaviour
 
         //Send out signal that this spawner is unavailable
         Dictionary<E_ValueIdentifer, object> eventObject = new Dictionary<E_ValueIdentifer, object>();
-        eventObject.Add(E_ValueIdentifer.Spawner_GameObject, this.gameObject);
+        eventObject.Add(E_ValueIdentifer.GameObject_Spawner, this.gameObject);
         EventManager.TriggerEvent(E_EventName.Spawner_Unavailable, eventObject);
     }
 
@@ -82,7 +81,7 @@ public class Spawner : MonoBehaviour
 
         //Send out signal that this spawner is unavailable
         Dictionary<E_ValueIdentifer, object> eventObject = new Dictionary<E_ValueIdentifer, object>();
-        eventObject.Add(E_ValueIdentifer.Spawner_GameObject, this.gameObject);
+        eventObject.Add(E_ValueIdentifer.GameObject_Spawner, this.gameObject);
         EventManager.TriggerEvent(E_EventName.Spawner_Available, eventObject);
     }
 }

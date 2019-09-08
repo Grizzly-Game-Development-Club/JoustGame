@@ -42,11 +42,11 @@ public class GameManager : MonoBehaviour
             Dictionary<E_ValueIdentifer, object> eo = obj.EventObject;
 
             object enemyReference;
-            if (eo.TryGetValue(E_ValueIdentifer.Enemy_GameObject, out enemyReference))
+            if (eo.TryGetValue(E_ValueIdentifer.GameObject_Enemy, out enemyReference))
             {
                 GameObject enemeyObject = (GameObject)enemyReference;
 
-                m_GameScore += enemeyObject.GetComponent<EnemeyController>().Score;
+                m_GameScore += enemeyObject.GetComponent<EnemyController>().EnemyScore;
             }
             else
             {

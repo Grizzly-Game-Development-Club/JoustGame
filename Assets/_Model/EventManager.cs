@@ -5,22 +5,21 @@ using UnityEngine;
 
 public enum E_EventName
 {
-    Pause_Game, Resume_Game, Game_Over, Victory,
-    Enemy_Spawned, Enemy_Death,
-    Setup_Level,
-    Request_SpawnWave_Value, Request_TotalWave_Value
+    Pause_Game, Resume_Game, Game_Over, Victory, Start_Level,
+    Setup_UI_Wave_Info, Setup_Spawner_List, Wave_Complete,
+    Enemy_Spawned, Enemy_Death, Add_Spawner, Spawner_Available, Spawner_Unavailable, Countdown_Toggle,
+    
+
 };
 
 public enum E_ValueIdentifer
 {
-    Request_SpawnWave_Value, Request_TotalWave_Value
-
-
-    WaveInfo_Array_Int,
-    Countdown_Toggle_Bool,
-    Time_Left_Int,
-    Spawner_GameObject,
-    Enemy_GameObject
+    IntArray_WaveInfo,
+    Bool_CountdownToggle,
+    Int_TimeLeft,
+    GameObject_Spawner,
+    GameObject_Enemy,
+    Wave_Victory_Score
 }
 
 public class EventManager : MonoBehaviour
