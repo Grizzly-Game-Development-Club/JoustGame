@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     #region Variable
     [SerializeField] private int m_GameScore;
+    [SerializeField] private int m_PausedToggle;
     #endregion
 
     #region Getter and Setter
@@ -22,6 +23,18 @@ public class GameManager : MonoBehaviour
         set
         {
             m_GameScore = value;
+        }
+    }
+    public int PausedToggle
+    {
+        get
+        {
+            return m_PausedToggle;
+        }
+
+        set
+        {
+            m_PausedToggle = value;
         }
     }
     #endregion
@@ -61,6 +74,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            EventManager.TriggerEvent();
+
+        }
+
+
+
+    }
 
 }

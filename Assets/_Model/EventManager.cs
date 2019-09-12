@@ -15,6 +15,7 @@ public enum E_EventName
 public enum E_ValueIdentifer
 {
     IntArray_WaveInfo,
+    Bool_PauseToggle,
     Bool_CountdownToggle,
     Int_TimeLeft,
     GameObject_Spawner,
@@ -125,6 +126,8 @@ public class EventManager : MonoBehaviour
         }
     }
 
+
+    //No Variable Pass
     public static void TriggerEvent(E_EventName eventName)
     {
         Action<EventParam> thisEvent;
@@ -137,9 +140,12 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public static void TriggerEvent(E_EventName eventName, Dictionary<E_ValueIdentifer, object> eventObject)
+    //Single Variable Pass
+    public static void TriggerEvent(E_EventName eventName, E_ValueIdentifer valueIdentifer, object value)
     {
-        
+        Dictionary<E_ValueIdentifer, object> eventObject = new Dictionary<E_ValueIdentifer, object>();
+        eventObject.Add(valueIdentifer, value);
+
         Action<EventParam> thisEvent;
         if (Instance.EventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -148,6 +154,23 @@ public class EventManager : MonoBehaviour
             EventDebugLog(String.Format("Event Ended: {0}", eventName));
         }
     }
+
+    //Multi Variable Pass
+    public static void TriggerEvent(E_EventName eventName, Dictionary<E_ValueIdentifer, object> eventObject)
+    {
+
+        Action<EventParam> thisEvent;
+        if (Instance.EventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            EventDebugLog(String.Format("Event Started: {0}", eventName));
+            thisEvent.Invoke(new EventParam(eventName, eventObject));
+            EventDebugLog(String.Format("Event Ended: {0}", eventName));
+        }
+    }
+
+    
+
+    
 
     public static void FinishEvent(E_EventName eventName)
     {
