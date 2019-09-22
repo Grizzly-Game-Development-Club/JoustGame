@@ -2,17 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
 
-
     #region Variable
+    private static GameManager m_Instance;
     [SerializeField] private int m_GameScore;
     [SerializeField] private int m_PausedToggle;
     #endregion
 
     #region Getter and Setter
+    public static GameManager Instance { get { return m_Instance; } }
     public int GameScore
     {
         get
@@ -39,13 +41,40 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    private void Awake()
+    {
+        if (m_Instance != null && m_Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            m_Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
     private void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         EventManager.StartListening(E_EventName.Enemy_Death, IncreaseScore);
     }
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         EventManager.StopListening(E_EventName.Enemy_Death, IncreaseScore);
+    }
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    //Called when a scene is loaded
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        EventManager.TriggerEvent(E_EventName.Start_Level);
     }
 
     private void IncreaseScore(EventParam obj)
@@ -66,7 +95,6 @@ public class GameManager : MonoBehaviour
                 EventManager.EventDebugLog("Value does not exist");
             }
 
-            EventManager.FinishEvent(obj.EventName);
         }
         catch (Exception e)
         {
@@ -78,7 +106,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            EventManager.TriggerEvent();
+            //EventManager.TriggerEvent();
 
         }
 

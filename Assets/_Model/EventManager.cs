@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum E_EventName
 {
@@ -28,7 +29,7 @@ public class EventManager : MonoBehaviour
     #region Variable
     private static EventManager m_EventManager;
     private Dictionary<E_EventName, Action<EventParam>> m_EventDictionary;
-    private bool m_EventDebugMode;
+    [SerializeField] private bool m_EventDebugMode;
     #endregion
 
     #region Getter & Setter
@@ -95,6 +96,7 @@ public class EventManager : MonoBehaviour
             m_EventDictionary = new Dictionary<E_EventName, Action<EventParam>>();
         }
     }
+
 
     public static void StartListening(E_EventName eventName, Action<EventParam> listener)
     {
@@ -168,15 +170,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    
-
-    
-
-    public static void FinishEvent(E_EventName eventName)
-    {
-        EventDebugLog(String.Format("Event Finished: {0}", eventName));
-    }
-
+    //Enable Event Log Debug to Appear
     public static void EventDebugLog(String eventDebugMessage)
     {
         if (Instance.m_EventDebugMode)
@@ -185,12 +179,6 @@ public class EventManager : MonoBehaviour
         }
     }
 
-}
-
-
-public class Variable
-{
-    public object Value { get; set; }
 }
 
 [Serializable]

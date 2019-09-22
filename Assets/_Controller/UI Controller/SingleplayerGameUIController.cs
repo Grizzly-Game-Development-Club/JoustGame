@@ -129,7 +129,7 @@ public class SingleplayerGameUIController : MonoBehaviour
                 EventManager.EventDebugLog("Value does not exist");
             }
 
-            EventManager.FinishEvent(obj.EventName);
+            
         }
         catch (Exception e)
         {
@@ -156,7 +156,6 @@ public class SingleplayerGameUIController : MonoBehaviour
                 EventManager.EventDebugLog("Value does not exist");
             }
 
-            EventManager.FinishEvent(obj.EventName);
         }
         catch (Exception e)
         {
