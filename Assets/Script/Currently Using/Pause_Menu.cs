@@ -13,20 +13,19 @@ public class Pause_Menu : MonoBehaviour
 
     private bool buttonSelected;
 
+    public GameObject PauseMenuReference;
 
-    // Use this for initialization
-    void Start () {
-        if (Input.GetAxisRaw("Vertical") != 0 && buttonSelected == false)
-        {
-            eventSystem.SetSelectedGameObject(selectedObject);
-            buttonSelected = true;
-        }
-
-        
-    }
 
     public void resume() {
-        
+        Time.timeScale = 1;
+        PauseMenuReference.SetActive(false);
     }
+
+    public void mainMenu()
+    {
+        SceneManager.LoadScene(0);
+        Time.timeScale = 1;
+    }
+
 
 }

@@ -1,0 +1,123 @@
+
+Event Name: 
+	Pause_Game
+Trigger From:
+	- GameManager
+TimeFrame: 
+	- When the game get paused
+Connection: 
+	- PauseUIController (Set Timescale to 0; and show UI Panel)
+
+Event Name:
+	Resume_Game
+Trigger From:
+	- GameManager
+TimeFrame: 
+	- When the game get resume
+Connection: 
+	- PauseUIController (Set Timescale to 1; and hide UI Panel)
+
+Event Name:
+	Game_Over
+Trigger From:
+	- Player
+	- SingleplayerGameUIController
+TimeFrame: 
+	- When the time run out and enemy are still alive
+	- When the player dies
+Connection: 
+	- GameOverUIController (Set Timescale to 0; and show UI Panel)
+	
+Event Name:
+	Victory
+Trigger From:
+	- SpawnManager
+TimeFrame: 
+	- When all the enemy is dead
+Connection: 
+	- GameManager(Go to next level)
+
+Event Name:
+	Enemy_Spawned
+Trigger From:
+	- Spawner(Spawn)
+TimeFrame: 
+	- When an enemy is spawn
+Connection: 
+	- SpawnerManager(Add Enemy to List of EnemyAlived)
+	
+Event Name:
+	Enemy_Death	
+Trigger From:
+	- EnemyController
+TimeFrame: 
+	- When an enemy died
+Connection: 	
+	- SpawnerManager(Remove enemy from alive list)
+		- Need Enemy GameObject
+	- GameManager(Increase Score based on enemy)
+		- Need Enemy GameObject
+
+		
+Event Name:
+	Setup_Level
+Trigger From:
+	- GameManager
+TimeFrame: 
+	- When a level game scene is loaded
+Connection: 
+	- SingleplayerGameUIController(Request for Wave Information)
+		* Trigger Request_Info_Wave
+			- Pass in itself as reference
+	- Spawner(Add itself to the spawn manager list)
+		* Trigger Add_Spawner
+			- Pass in itself as reference
+	
+Event Name:
+	Start_Level
+Trigger From:
+	- GameManager
+TimeFrame: 
+	- After Level has been setup
+Connection: 
+	- SpawnerManager(Start spawning enemy)
+	- SingleplayerGameUIController(Start Wave Time Countdown) 
+
+Event Name:
+	Wave_Setup
+Trigger From:
+	- SpawnerManager
+TimeFrame: 
+	- When a wave finished and there is still wave left
+Connection: 
+	- SingleplayerGameUIController(Request for Wave Information)
+		* Trigger Request_Info_Wave
+			- Pass in itself as reference
+
+Event Name:
+	Add_Spawner
+Trigger From:
+	- Spawner
+TimeFrame: 
+	- When Setup_Level is triggered in Spawner
+Connection: 
+	- SpawnerManager(Add Spawner to spawnerlist)
+	
+Event Name:
+	Spawner_Available
+Trigger From:
+	- Spawner
+TimeFrame: 
+	- When a spawner is available to spawn
+Connection: 
+	- SpawnerManager(Add Spawner to available spawn list)
+	
+Event Name:
+	Spawner_Unavailable
+Trigger From:
+	- Spawner
+TimeFrame: 
+	- When something block a spawner from spawning enemy
+Connection: 
+	- SpawnerManager(Remove Spawner from available spawn list)
+
